@@ -12,7 +12,11 @@ namespace VoidWarrior
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D shipTexture;
+        SpriteFont guardians;
+        SpriteFont earthorbiter;
         Player player;
+        MainMenu menu;
+        Parallax parallax;
 
         public Game1()
         {
@@ -28,7 +32,10 @@ namespace VoidWarrior
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            IsMouseVisible = true;
+            graphics.PreferredBackBufferWidth = Globals.SCREEN_WIDTH;
+            graphics.PreferredBackBufferHeight = Globals.SCREEN_HEIGHT;
+            graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -42,6 +49,11 @@ namespace VoidWarrior
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             shipTexture = Content.Load<Texture2D>("VoidShip");
+            parallax = new Parallax(Content.Load<Texture2D>("BackgroundBack"), Content.Load<Texture2D>("BackgroundFront"));
+
+            guardians = Content.Load<SpriteFont>("Guardians");
+            earthorbiter = Content.Load<SpriteFont>("Earth Orbiter");
+
             LateInit();
         }
 
@@ -49,6 +61,7 @@ namespace VoidWarrior
         {
             player = new Player(shipTexture, 100, 100, Color.White);
             player.Size = new Vector2(50, 50);
+            menu = new MainMenu("Void Warrior", earthorbiter, guardians);
         }
 
         /// <summary>
@@ -71,7 +84,13 @@ namespace VoidWarrior
             if (Events.KeyDown(Keys.Escape))
                 Exit();
 
+            parallax.Update(gameTime);
             player.Update(gameTime);
+            MenuEvent e = menu.Update();
+            if (e == MenuEvent.Quit)
+            {
+                Exit();
+            }
 
             base.Update(gameTime);
         }
@@ -82,10 +101,12 @@ namespace VoidWarrior
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
+            parallax.Draw(spriteBatch);
             player.Draw(spriteBatch);
+            menu.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

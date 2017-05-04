@@ -9,8 +9,8 @@
     <ProjectGuid>{C0720B87-2F36-4ACB-BFD1-BFB2457DC165}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VoidWarior</RootNamespace>
-    <AssemblyName>VoidWarior</AssemblyName>
+    <RootNamespace>VoidWarrior</RootNamespace>
+    <AssemblyName>VoidWarrior</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -41,12 +41,15 @@
     <Compile Include="Button.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="Level1.cs" />
     <Compile Include="MainMenu.cs" />
+    <Compile Include="Parallax.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sprite.cs" />
+    <Compile Include="Text.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

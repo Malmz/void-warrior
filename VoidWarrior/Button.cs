@@ -15,14 +15,26 @@ namespace VoidWarrior
 
         //TODO: Optimize with textures instead of sprites
 
-        public Button(string text, SpriteFont font, Vector2 position, Color activeColor, Color InActiveColor)
+        public Button(string text, SpriteFont font, Vector2 position, Color InActiveColor, Color activeColor, Align align = Align.Left)
         {
             this.text = text;
             this.font = font;
-            this.position = position;
             this.activeColor = activeColor;
             this.InActiveColor = InActiveColor;
-            boundingBox = new Rectangle(position.ToPoint(), new Point());
+            this.position = position;
+            switch (align)
+            {
+                case Align.Left:
+                    this.position = position;
+                    break;
+                case Align.Center:
+                    this.position = position - new Vector2(font.MeasureString(text).X / 2, 0);
+                    break;
+                case Align.Right:
+                    this.position = position - new Vector2(font.MeasureString(text).X, 0);
+                    break;
+            }
+            boundingBox = new Rectangle(this.position.ToPoint(), font.MeasureString(text).ToPoint());
         }
 
         /// <summary>
@@ -45,9 +57,9 @@ namespace VoidWarrior
         /// Checks if the vector is inside the button. If so, set it as active.
         /// </summary>
         /// <param name="vector"></param>
-        public void Hover(Vector2 vector)
+        public void Hover(Point point)
         {
-            if (boundingBox.Contains(vector.X, vector.Y))
+            if (boundingBox.Contains(point))
             {
                 isActive = true;
             }
@@ -55,6 +67,11 @@ namespace VoidWarrior
             {
                 isActive = false;
             }
+        }
+
+        public bool Contains(Point point)
+        {
+            return boundingBox.Contains(point);
         }
     }
 
