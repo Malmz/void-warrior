@@ -1,5 +1,5 @@
 ﻿
-namespace VoidWarior
+namespace VoidWarrior
 {
     class Level1
     {

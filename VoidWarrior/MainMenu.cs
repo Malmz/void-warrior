@@ -1,4 +1,4 @@
-﻿namespace VoidWarior
+﻿namespace VoidWarrior
 {
     class MainMenu
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VoidWarior
+namespace VoidWarrior
 {
 #if WINDOWS || LINUX
     /// <summary>

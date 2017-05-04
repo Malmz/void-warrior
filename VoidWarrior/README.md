@@ -1,8 +1,8 @@
-﻿# Void Warior
+﻿# Void Warrior
 
 ## Beskrivning
 
-Void Warior är ett 2D spel där man flyger runt i rymden och skuter på fientliga skepp.
+Void Warrior är ett 2D spel där man flyger runt i rymden och skuter på fientliga skepp.
 Målet är att ta sig igenom en bana och få så mycket poäng som möjligt.
 Man kan samla poäng genom att skuta ner fientliga skepp utan att ta skada.
 
