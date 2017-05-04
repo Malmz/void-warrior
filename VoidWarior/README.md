@@ -12,6 +12,7 @@ Man kan samla poäng genom att skuta ner fientliga skepp utan att ta skada.
 - Skepp man kan styra själv.
 - Skepp som styrs av datorn.
 - Bana med förbestämd layout.
+- bakgrund med parallaxing av stjärnor;
 - Poäng räknare.
 - Combo räknare.
 - Game over skärm.

@@ -11,6 +11,8 @@ namespace VoidWarior
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D shipTexture;
+        Player player;
 
         public Game1()
         {
@@ -39,8 +41,14 @@ namespace VoidWarior
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            shipTexture = Content.Load<Texture2D>("VoidShip");
+            LateInit();
+        }
 
-            // TODO: use this.Content to load your game content here
+        protected void LateInit()
+        {
+            player = new Player(shipTexture, 100, 100, Color.White);
+            player.Size = new Vector2(50, 50);
         }
 
         /// <summary>
@@ -59,10 +67,11 @@ namespace VoidWarior
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Events.Update();
+            if (Events.KeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -73,9 +82,11 @@ namespace VoidWarior
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            player.Draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
