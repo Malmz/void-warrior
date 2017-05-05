@@ -38,6 +38,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AnimatedSprite.cs" />
+    <Compile Include="Bullet.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Game1.cs" />

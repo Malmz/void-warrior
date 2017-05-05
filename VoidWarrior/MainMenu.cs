@@ -16,7 +16,6 @@ namespace VoidWarrior
     class MainMenu
     {
         Text title;
-        Sprite background;
         Button start;
         Button levelSelect;
         Button quit;

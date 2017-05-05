@@ -2,7 +2,7 @@
 {
     class Globals
     {
-        public const int SCREEN_WIDTH = 1536;
-        public const int SCREEN_HEIGHT = 864;
+        public const int SCREEN_WIDTH = 1024;
+        public const int SCREEN_HEIGHT = 720;
     }
 }

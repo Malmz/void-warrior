@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace VoidWarrior
 {
@@ -17,6 +18,7 @@ namespace VoidWarrior
         Player player;
         MainMenu menu;
         Parallax parallax;
+        Bullet bullet;
 
         public Game1()
         {
@@ -50,7 +52,7 @@ namespace VoidWarrior
             spriteBatch = new SpriteBatch(GraphicsDevice);
             shipTexture = Content.Load<Texture2D>("VoidShip");
             parallax = new Parallax(Content.Load<Texture2D>("BackgroundBack"), Content.Load<Texture2D>("BackgroundFront"));
-
+            bullet = new Bullet(new Sprite(Content.Load<Texture2D>("pixel"), 0, 0, 50, 50, Color.Red), new Vector2(150, 150), 0.01f, Math.PI * (8.0/7.0), x => (float)Math.Sin(x));
             guardians = Content.Load<SpriteFont>("Guardians");
             earthorbiter = Content.Load<SpriteFont>("Earth Orbiter");
 
@@ -59,8 +61,7 @@ namespace VoidWarrior
 
         protected void LateInit()
         {
-            player = new Player(shipTexture, 100, 100, Color.White);
-            player.Size = new Vector2(50, 50);
+            player = new Player(shipTexture, 100, 100, 150, 150, Color.White);
             menu = new MainMenu("Void Warrior", earthorbiter, guardians);
         }
 
@@ -85,6 +86,7 @@ namespace VoidWarrior
                 Exit();
 
             parallax.Update(gameTime);
+            bullet.Update(gameTime);
             player.Update(gameTime);
             MenuEvent e = menu.Update();
             if (e == MenuEvent.Quit)
@@ -105,6 +107,7 @@ namespace VoidWarrior
 
             spriteBatch.Begin();
             parallax.Draw(spriteBatch);
+            bullet.Draw(spriteBatch);
             player.Draw(spriteBatch);
             menu.Draw(spriteBatch);
             spriteBatch.End();

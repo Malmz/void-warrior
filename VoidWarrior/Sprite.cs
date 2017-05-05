@@ -59,6 +59,55 @@ namespace VoidWarrior
                 rect.Size = size.ToPoint();
             }
         }
+
+        public float X
+        {
+            get
+            {
+                return position.X;
+            }
+            set
+            {
+                position.X = value;
+                rect.X = (int)position.X;
+            }
+        }
+        public float Y
+        {
+            get
+            {
+                return position.Y;
+            }
+            set
+            {
+                position.Y = value;
+                rect.Y = (int)position.Y;
+            }
+        }
+        public float Width
+        {
+            get
+            {
+                return size.X;
+            }
+            set
+            {
+                size.X = value;
+                rect.Width = (int)size.X;
+            }
+        }
+        public float Height
+        {
+            get
+            {
+                return size.Y;
+            }
+            set
+            {
+                size.Y = value;
+                rect.Height = (int)size.Y;
+            }
+        }
         public Rectangle Rectangle
         {
             get
