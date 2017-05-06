@@ -13,8 +13,6 @@ namespace VoidWarrior
         private Color activeColor;
         private Color InActiveColor;
 
-        //TODO: Optimize with textures instead of sprites
-
         public Button(string text, SpriteFont font, Vector2 position, Color InActiveColor, Color activeColor, Align align = Align.Left)
         {
             this.text = text;
@@ -28,10 +26,12 @@ namespace VoidWarrior
                     this.position = position;
                     break;
                 case Align.Center:
-                    this.position = position - new Vector2(font.MeasureString(text).X / 2, 0);
+                    this.position = position;
+                    this.position.X -= font.MeasureString(text).X / 2;
                     break;
                 case Align.Right:
-                    this.position = position - new Vector2(font.MeasureString(text).X, 0);
+                    this.position = position;
+                    this.position.X -= font.MeasureString(text).X;
                     break;
             }
             boundingBox = new Rectangle(this.position.ToPoint(), font.MeasureString(text).ToPoint());

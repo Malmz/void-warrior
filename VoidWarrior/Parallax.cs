@@ -32,7 +32,7 @@ namespace VoidWarrior
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            int backWidth = Globals.SCREEN_WIDTH / back.Width;
+            int backWidth = Globals.SCREEN_WIDTH / back.Width + 1;
             int backHeight = Globals.SCREEN_HEIGHT / back.Height + 1;
             for (int i = -1; i < backHeight; i++)
             {
@@ -42,7 +42,7 @@ namespace VoidWarrior
                 }
             }
 
-            int frontWidth = Globals.SCREEN_WIDTH / front.Width;
+            int frontWidth = Globals.SCREEN_WIDTH / front.Width + 1;
             int frontHeight = Globals.SCREEN_HEIGHT / front.Height + 1;
             for (int i = -1; i < frontHeight; i++)
             {

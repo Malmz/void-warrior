@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace VoidWarrior
 {
@@ -12,13 +13,11 @@ namespace VoidWarrior
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D shipTexture;
-        SpriteFont guardians;
-        SpriteFont earthorbiter;
-        Player player;
+        ResourcePool res;
         MainMenu menu;
         Parallax parallax;
-        Bullet bullet;
+        Level1 level;
+        int currentView;
 
         public Game1()
         {
@@ -39,6 +38,8 @@ namespace VoidWarrior
             graphics.PreferredBackBufferHeight = Globals.SCREEN_HEIGHT;
             graphics.ApplyChanges();
 
+            res = new ResourcePool(Content);
+
             base.Initialize();
         }
 
@@ -48,21 +49,23 @@ namespace VoidWarrior
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            shipTexture = Content.Load<Texture2D>("VoidShip");
-            parallax = new Parallax(Content.Load<Texture2D>("BackgroundBack"), Content.Load<Texture2D>("BackgroundFront"));
-            bullet = new Bullet(new Sprite(Content.Load<Texture2D>("pixel"), 0, 0, 50, 50, Color.Red), new Vector2(150, 150), 0.01f, Math.PI * (8.0/7.0), x => (float)Math.Sin(x));
-            guardians = Content.Load<SpriteFont>("Guardians");
-            earthorbiter = Content.Load<SpriteFont>("Earth Orbiter");
+
+            res.AddTexture("VoidShip");
+            res.AddTexture("pixel");
+            res.AddTexture("BackgroundBack");
+            res.AddTexture("BackgroundFront");
+            res.AddFont("Guardians");
+            res.AddFont("Earth Orbiter");
 
             LateInit();
         }
 
         protected void LateInit()
         {
-            player = new Player(shipTexture, 100, 100, 150, 150, Color.White);
-            menu = new MainMenu("Void Warrior", earthorbiter, guardians);
+            level = new Level1(res);
+            menu = new MainMenu(res);
+            parallax = new Parallax(res.GetTexture("BackgroundBack"), res.GetTexture("BackgroundFront"));
         }
 
         /// <summary>
@@ -83,15 +86,44 @@ namespace VoidWarrior
         {
             Events.Update();
             if (Events.KeyDown(Keys.Escape))
-                Exit();
-
-            parallax.Update(gameTime);
-            bullet.Update(gameTime);
-            player.Update(gameTime);
-            MenuEvent e = menu.Update();
-            if (e == MenuEvent.Quit)
             {
                 Exit();
+            }
+            if (Events.KeyPressed(Keys.F))
+            {
+                graphics.ToggleFullScreen();
+            }
+
+            parallax.Update(gameTime);
+                
+            switch (currentView)
+            {
+                case 0:
+                    switch (menu.Update())
+                    {
+                        case MenuEvent.None:
+                            break;
+                        case MenuEvent.LevelSelect:
+                            break;
+                        case MenuEvent.Quit:
+                            Exit();
+                            break;
+                        case MenuEvent.L1:
+                            currentView = 1;
+                            break;
+                        case MenuEvent.L2:
+                            break;
+                        case MenuEvent.L3:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 1:
+                    level.Update(gameTime);
+                    break;
+                default:
+                    break;
             }
 
             base.Update(gameTime);
@@ -107,9 +139,17 @@ namespace VoidWarrior
 
             spriteBatch.Begin();
             parallax.Draw(spriteBatch);
-            bullet.Draw(spriteBatch);
-            player.Draw(spriteBatch);
-            menu.Draw(spriteBatch);
+            switch (currentView)
+            {
+                case 0:
+                    menu.Draw(spriteBatch);
+                    break;
+                case 1:
+                    level.Draw(spriteBatch);
+                    break;
+                default:
+                    break;
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);

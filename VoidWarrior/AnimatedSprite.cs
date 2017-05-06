@@ -4,22 +4,12 @@ using System.Collections.Generic;
 
 namespace VoidWarrior
 {
-    class AnimatedSprite
+    class AnimatedSprite : Sprite
     {
-        private Texture2D texture;
         private Dictionary<string, Rectangle> sourceRects;
-        private Rectangle destRect;
-        private Vector2 position;
-        private Vector2 size;
-        private Color color;
 
-        public AnimatedSprite(Texture2D texture, Vector2 position, Vector2 size, Color color)
+        public AnimatedSprite(Texture2D texture, float X, float Y, float W, float H, Color color) : base(texture, X, Y, W, H, color)
         {
-            this.texture = texture;
-            this.position = position;
-            this.size = size;
-            this.color = color;
-            this.destRect = new Rectangle(position.ToPoint(), size.ToPoint());
             sourceRects = new Dictionary<string, Rectangle>();
         }
 
@@ -48,35 +38,7 @@ namespace VoidWarrior
 
         public void Draw(string name, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, destRect, sourceRects[name], color);
-        }
-
-        public Vector2 Position
-        {
-            get
-            {
-                return position;
-            }
-
-            set
-            {
-                position = value;
-                destRect.Location = position.ToPoint();
-            }
-        }
-
-        public Vector2 Size
-        {
-            get
-            {
-                return size;
-            }
-
-            set
-            {
-                size = value;
-                destRect.Size = size.ToPoint();
-            }
+            spriteBatch.Draw(texture, rect, sourceRects[name], color);
         }
     }
 }

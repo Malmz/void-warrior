@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VoidWarrior
 {
@@ -20,20 +22,50 @@ namespace VoidWarrior
     {
         private const float SPEED = 0.3f;
         private AnimatedSprite sprite;
+        private Texture2D bulletTexture;
         private Vector2 move;
-        Direction direction;
+        private List<Bullet> bullets;
+        private Direction direction;
 
-        public Player(Texture2D texture, float X, float Y, float W, float H, Color color)
+        public Player(Texture2D shipTexture, Texture2D bulletTexture, float X, float Y, float W, float H, Color color)
         {
-            sprite = new AnimatedSprite(texture, new Vector2(X, Y), new Vector2(W, H), color);
+            this.bulletTexture = bulletTexture;
+            this.bullets = new List<Bullet>();
+            sprite = new AnimatedSprite(shipTexture, X, Y, W, H, color);
             sprite.AutoTile(54, 63);
             move = new Vector2();
             direction = Direction.Center;
         }
 
-
+        private void MoveInside(Rectangle parent)
+        {
+            if (parent.Contains(sprite.Bounds))
+            {
+                return;
+            }
+            else if (sprite.X < parent.X)
+            {
+                sprite.X = parent.X;
+            }
+            else if (sprite.X + sprite.Width > parent.Width)
+            {
+                sprite.X = parent.Width - sprite.Width;
+            }
+            if (sprite.Y < parent.Y)
+            {
+                sprite.Y = parent.Y;
+            }
+            else if (sprite.Y + sprite.Height > parent.Height)
+            {
+                sprite.Y = parent.Height - sprite.Height;
+            }
+        }
         public void Update(GameTime gameTime)
         {
+            if (Events.KeyPressed(Keys.Space))
+            {
+                bullets.Add(new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 0.5f, 90, x => 0));
+            }
             if (Events.KeyDown(Keys.W))
             {
                 move += new Vector2(0, -1);
@@ -82,10 +114,14 @@ namespace VoidWarrior
             }
             sprite.Position += move * SPEED * gameTime.ElapsedGameTime.Milliseconds;
             move -= move;
+            MoveInside(Globals.SCREEN);
+            bullets = bullets.Where(x => Globals.SCREEN.Contains(x.Bounds)).ToList();
+            bullets.ForEach(x => x.Update(gameTime));
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            bullets.ForEach(x => x.Draw(spriteBatch));
             switch (direction)
             {
                 case Direction.TopLeft:
@@ -144,6 +180,19 @@ namespace VoidWarrior
             set
             {
                 sprite.Size = value;
+            }
+        }
+
+        public List<Bullet> Bullets
+        {
+            get
+            {
+                return bullets;
+            }
+
+            set
+            {
+                bullets = value;
             }
         }
     }

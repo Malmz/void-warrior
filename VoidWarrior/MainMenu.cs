@@ -20,10 +20,10 @@ namespace VoidWarrior
         Button levelSelect;
         Button quit;
 
-        public MainMenu(string title, SpriteFont titleFont, SpriteFont menuFont)
+        public MainMenu(ResourcePool res)
         {
-            this.title = new Text(title, titleFont, new Vector2(Globals.SCREEN_WIDTH / 2, 100), Color.Yellow, Align.Center);
-            //this.background = background;
+            SpriteFont menuFont = res.GetFont("Guardians");
+            this.title = new Text("Void Warrior", res.GetFont("Earth Orbiter"), new Vector2(Globals.SCREEN_WIDTH / 2, 100), Color.Yellow, Align.Center);
             this.start = new Button("Start", menuFont, new Vector2(Globals.SCREEN_WIDTH / 2, 400), Color.White, Color.Yellow, Align.Center);
             this.levelSelect = new Button("Level Select", menuFont, new Vector2(Globals.SCREEN_WIDTH / 2, 500), Color.White, Color.Yellow, Align.Center);
             this.quit = new Button("Quit", menuFont, new Vector2(Globals.SCREEN_WIDTH / 2, 600), Color.White, Color.Yellow, Align.Center);

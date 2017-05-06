@@ -5,11 +5,11 @@ namespace VoidWarrior
 {
     class Sprite
     {
-        private Vector2 position;
-        private Vector2 size;
-        private Rectangle rect;
-        private Texture2D texture;
-        private Color color;
+        protected Vector2 position;
+        protected Vector2 size;
+        protected Rectangle rect;
+        protected Texture2D texture;
+        protected Color color;
 
         public Sprite(Texture2D texture, float X, float Y, Color color)
         {
@@ -108,7 +108,7 @@ namespace VoidWarrior
                 rect.Height = (int)size.Y;
             }
         }
-        public Rectangle Rectangle
+        public Rectangle Bounds
         {
             get
             {

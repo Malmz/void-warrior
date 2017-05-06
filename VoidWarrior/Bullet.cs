@@ -7,31 +7,40 @@ namespace VoidWarrior
     class Bullet
     {
         private Sprite sprite;
-        private Vector2 position;
-        private double angle;
-        private Func<float, float> path;
-        private float speed;
+        private Vector2 startPos;
+        private Path path;
 
-        public Bullet(Sprite sprite, Vector2 position, float speed, double angle, Func<float, float> path)
+        public Bullet(Texture2D texture, float X, float Y, Color color, float speed, double angle, Func<float, float> func)
         {
-            this.position = position;
-            this.sprite = sprite;
-            this.angle = angle;
-            this.speed = speed;
-            this.path = path;
+            this.startPos = new Vector2(X, Y);
+            this.sprite = new Sprite(texture, 0, 0, color);
+            this.path = new Path(speed, angle, func);
+        }
+
+        public Bullet(Texture2D texture, float X, float Y, float W, float H, Color color, float speed, double angle, Func<float, float> func)
+        {
+            this.startPos = new Vector2(X, Y);
+            this.sprite = new Sprite(texture, 0, 0, W, H, color);
+            this.path = new Path(speed, angle, func);
         }
 
         public void Update(GameTime gameTime)
         {
-            position.X += speed * gameTime.ElapsedGameTime.Milliseconds;
-            position.Y = path(position.X);
-            sprite.X = position.X * (float)Math.Cos(angle) - position.Y * (float)Math.Sin(angle);
-            sprite.Y = position.X * (float)Math.Sin(angle) + position.Y * (float)Math.Cos(angle);
+            path.Update(gameTime);
+            sprite.Position = path.Position + startPos;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
+        }
+
+        public Rectangle Bounds
+        {
+            get
+            {
+                return sprite.Bounds;
+            }
         }
         
     }
