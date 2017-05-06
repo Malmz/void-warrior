@@ -46,7 +46,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Level1.cs" />
-    <Compile Include="MainMenu.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Parallax.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="Player.cs" />

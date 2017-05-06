@@ -47,9 +47,12 @@ namespace VoidWarrior
             }
         }
 
-        public static Point MousePosition()
+        public static Point MousePosition
         {
-            return mousestateNew.Position;
+            get
+            {
+                return mousestateNew.Position;
+            }
         }
 
         public static bool MouseDown(MouseButtons button)

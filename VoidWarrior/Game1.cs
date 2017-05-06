@@ -14,9 +14,10 @@ namespace VoidWarrior
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         ResourcePool res;
-        MainMenu menu;
+        Menu mainMenu;
         Parallax parallax;
         Level1 level;
+        Sprite cursor;
         int currentView;
 
         public Game1()
@@ -33,7 +34,7 @@ namespace VoidWarrior
         /// </summary>
         protected override void Initialize()
         {
-            IsMouseVisible = true;
+            //IsMouseVisible = true;
             graphics.PreferredBackBufferWidth = Globals.SCREEN_WIDTH;
             graphics.PreferredBackBufferHeight = Globals.SCREEN_HEIGHT;
             graphics.ApplyChanges();
@@ -63,8 +64,15 @@ namespace VoidWarrior
 
         protected void LateInit()
         {
+            cursor = new Sprite(res.GetTexture("pixel"), 0, 0, 15, 15, Color.Orange);
             level = new Level1(res);
-            menu = new MainMenu(res);
+            mainMenu = new Menu();
+            mainMenu.AddText("Void Warrior", res.GetFont("Earth Orbiter"), Globals.SCREEN_WIDTH / 2, 100, Color.Yellow, Align.Center);
+            mainMenu.AddButton("Start", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 400, Color.White, Color.Yellow, MenuEvent.ChangeView(2), Align.Center);
+            mainMenu.AddButton("Level Select", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 500, Color.White, Color.Yellow, MenuEvent.ChangeView(1), Align.Center);
+            mainMenu.AddButton("Quit", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 600, Color.White, Color.Yellow, MenuEvent.Quit, Align.Center);
+
+
             parallax = new Parallax(res.GetTexture("BackgroundBack"), res.GetTexture("BackgroundFront"));
         }
 
@@ -95,36 +103,34 @@ namespace VoidWarrior
             }
 
             parallax.Update(gameTime);
-                
+            MenuEvent menuEvent = mainMenu.Update();
+            
+            
             switch (currentView)
             {
                 case 0:
-                    switch (menu.Update())
+                    switch (menuEvent.Event)
                     {
-                        case MenuEvent.None:
+                        case MenuEvent.EventType.None:
                             break;
-                        case MenuEvent.LevelSelect:
-                            break;
-                        case MenuEvent.Quit:
+                        case MenuEvent.EventType.Quit:
                             Exit();
                             break;
-                        case MenuEvent.L1:
-                            currentView = 1;
-                            break;
-                        case MenuEvent.L2:
-                            break;
-                        case MenuEvent.L3:
+                        case MenuEvent.EventType.ChangeView:
+                            currentView = menuEvent.View;
                             break;
                         default:
                             break;
                     }
                     break;
-                case 1:
+                case 2:
                     level.Update(gameTime);
                     break;
                 default:
                     break;
             }
+
+            cursor.Position = Events.MousePosition.ToVector2();
 
             base.Update(gameTime);
         }
@@ -142,14 +148,15 @@ namespace VoidWarrior
             switch (currentView)
             {
                 case 0:
-                    menu.Draw(spriteBatch);
+                    mainMenu.Draw(spriteBatch);
                     break;
-                case 1:
+                case 2:
                     level.Draw(spriteBatch);
                     break;
                 default:
                     break;
             }
+            cursor.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
