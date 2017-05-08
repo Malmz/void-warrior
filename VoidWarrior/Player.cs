@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,12 +21,13 @@ namespace VoidWarrior
     }
     class Player
     {
-        private const float SPEED = 0.3f;
+        private const float SPEED = 300f;
         private AnimatedSprite sprite;
         private Texture2D bulletTexture;
         private Vector2 move;
         private List<Bullet> bullets;
         private Direction direction;
+        
 
         public Player(Texture2D shipTexture, Texture2D bulletTexture, float X, float Y, float W, float H, Color color)
         {
@@ -62,61 +64,43 @@ namespace VoidWarrior
         }
         public void Update(GameTime gameTime)
         {
-            if (Events.KeyPressed(Keys.Space))
+            if (Input.KeyPressed(Keys.Space))
             {
-                bullets.Add(new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 0.5f, 90, x => 0));
-            }
-            if (Events.KeyDown(Keys.W))
-            {
-                move += new Vector2(0, -1);
-                direction = Direction.Top;
-            }
-            if (Events.KeyDown(Keys.S))
-            {
-                move += new Vector2(0, 1);
-                direction = Direction.Bottom;
-            }
-            if (Events.KeyDown(Keys.A))
-            {
-                move += new Vector2(-1, 0);
-                direction = Direction.Left;
-            }
-            if (Events.KeyDown(Keys.D))
-            {
-                move += new Vector2(1, 0);
-                direction = Direction.Right;
+                bullets.Add(new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 500, 90, x => 0));
             }
 
-            if (move.X == -1 && move.Y == -1)
+            var rangeSwitch = new Dictionary<Func<double, bool>, Action>
             {
-                direction = Direction.TopLeft;
-            }
-            else if (move.X == 1 && move.Y == -1)
-            {
-                direction = Direction.TopRight;
-            }
-            else if (move.X == -1 && move.Y == 1)
-            {
-                direction = Direction.BottomLeft;
-            }
-            else if (move.X == 1 && move.Y == 1)
-            {
-                direction = Direction.BottomRight;
-            }
+                { x => x < 22.5 || x > 337.5,   () => direction = Direction.Left },
+                { x => x < 65.5,                () => direction = Direction.TopLeft },
+                { x => x < 112.5,               () => direction = Direction.Top },
+                { x => x < 157.5,               () => direction = Direction.TopRight },
+                { x => x < 202.5,               () => direction = Direction.Right },
+                { x => x < 247.5,               () => direction = Direction.BottomRight },
+                { x => x < 292.5,               () => direction = Direction.Bottom },
+                { x => x < 337.5,               () => direction = Direction.BottomLeft },
+            };
 
-            if (move.X != 0 || move.Y != 0)
-            {
-                move.Normalize();
-            }
-            else
+            move = Input.Joystick;
+            if (move.X == 0 && move.Y == 0)
             {
                 direction = Direction.Center;
             }
-            sprite.Position += move * SPEED * gameTime.ElapsedGameTime.Milliseconds;
+            else
+            {
+                rangeSwitch.First(sw => sw.Key(Angle(move))).Value();
+            }
+
+            sprite.Position += move * SPEED * gameTime.ElapsedGameTime.Milliseconds / 1000f;
             move -= move;
             MoveInside(Globals.SCREEN);
             bullets = bullets.Where(x => Globals.SCREEN.Contains(x.Bounds)).ToList();
             bullets.ForEach(x => x.Update(gameTime));
+        }
+
+        private double Angle(Vector2 vector)
+        {
+            return Math.Atan(vector.Y / vector.X) * 180 / Math.PI;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -194,6 +178,10 @@ namespace VoidWarrior
             {
                 bullets = value;
             }
+        }
+        public Rectangle Bounds
+        {
+            get { return sprite.Bounds; }
         }
     }
 }

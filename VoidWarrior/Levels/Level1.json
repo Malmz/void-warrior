@@ -1,0 +1,219 @@
+﻿{
+	'Player': {
+		'Texture': 'VoidShip',
+		'BulletTexture': 'pixel',
+		'Rectangle': {
+			'X': 500,
+			'Y': 600,
+			'W': 100,
+			'H': 100
+		},
+		'Color': {
+			'R': 255,
+			'G': 255,
+			'B': 255
+		}
+	},
+	'Enemies': [
+		{
+			'Texture': 'pixel',
+			'Delay': 1,
+			'Rectangle': {
+				'X': 500,
+				'Y': -100,
+				'W': 100,
+				'H': 100
+			},
+			'Color': {
+				'R': 255,
+				'G': 0,
+				'B': 0
+			},
+			'Path': {
+				'Speed': 100,
+				'Angle': 270,
+				'Func': "0"
+			}
+		},
+		{
+			'Texture': 'pixel',
+			'Delay': 2.5,
+			'Rectangle': {
+				'X': 650,
+				'Y': -100,
+				'W': 100,
+				'H': 100
+			},
+			'Color': {
+				'R': 0,
+				'G': 0,
+				'B': 255
+			},
+			'Path': {
+				'Speed': 150,
+				'Angle': 275,
+				'Func': "Sin"
+			}
+		},
+		{
+			'Texture': 'pixel',
+			'Delay': 2.5,
+			'Rectangle': {
+				'X': -100,
+				'Y': 150,
+				'W': 100,
+				'H': 100
+			},
+			'Color': {
+				'R': 100,
+				'G': 255,
+				'B': 255
+			},
+			'Path': {
+				'Speed': 150,
+				'Angle': -10,
+				'Func': "Sin"
+			}
+		},
+		{
+			'Texture': 'pixel',
+			'Delay': 4,
+			'Rectangle': {
+				'X': 800,
+				'Y': -100,
+				'W': 100,
+				'H': 100
+			},
+			'Color': {
+				'R': 0,
+				'G': 255,
+				'B': 0
+			},
+			'Path': {
+				'Speed': 150,
+				'Angle': 275,
+				'Func': "0"
+			}
+		},
+		{
+			'Texture': 'pixel',
+			'Delay': 5.2,
+			'Rectangle': {
+				'X': 700,
+				'Y': -100,
+				'W': 100,
+				'H': 100
+			},
+			'Color': {
+				'R': 255,
+				'G': 0,
+				'B': 0
+			},
+			'Path': {
+				'Speed': 100,
+				'Angle': 270,
+				'Func': "Sin"
+			}
+		},
+		{
+			'Texture': 'BackgroundBack',
+			'Delay': 5.2,
+			'Rectangle': {
+				'X': 200,
+				'Y': -100,
+				'W': 100,
+				'H': 100
+			},
+			'Color': {
+				'R': 0,
+				'G': 0,
+				'B': 255
+			},
+			'Path': {
+				'Speed': 150,
+				'Angle': 275,
+				'Func': "Sin"
+			}
+		},
+		{
+			'Texture': 'pixel',
+			'Delay': 7,
+			'Rectangle': {
+				'X': 300,
+				'Y': -100,
+				'W': 150,
+				'H': 50
+			},
+			'Color': {
+				'R': 0,
+				'G': 255,
+				'B': 0
+			},
+			'Path': {
+				'Speed': 150,
+				'Angle': 275,
+				'Func': "0"
+			}
+		},
+		{
+			'Texture': 'VoidShip',
+			'Delay': 12,
+			'Rectangle': {
+				'X': 500,
+				'Y': -100,
+				'W': 100,
+				'H': 100
+			},
+			'Color': {
+				'R': 255,
+				'G': 0,
+				'B': 0
+			},
+			'Path': {
+				'Speed': 100,
+				'Angle': 270,
+				'Func': "0"
+			}
+		},
+		{
+			'Texture': 'VoidShip',
+			'Delay': 9,
+			'Rectangle': {
+				'X': 650,
+				'Y': -100,
+				'W': 100,
+				'H': 100
+			},
+			'Color': {
+				'R': 0,
+				'G': 0,
+				'B': 255
+			},
+			'Path': {
+				'Speed': 150,
+				'Angle': 275,
+				'Func': "Sin"
+			}
+		},
+		{
+			'Texture': 'pixel',
+			'Delay': 13,
+			'Rectangle': {
+				'X': 800,
+				'Y': -100,
+				'W': 20,
+				'H': 20
+			},
+			'Color': {
+				'R': 0,
+				'G': 255,
+				'B': 0
+			},
+			'Path': {
+				'Speed': 150,
+				'Angle': 275,
+				'Func': "0"
+			}
+		}
+	]
+}

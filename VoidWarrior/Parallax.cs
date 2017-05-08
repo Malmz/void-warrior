@@ -18,8 +18,8 @@ namespace VoidWarrior
 
         public void Update(GameTime gameTime)
         {
-            frontPos.Y += 0.05f * gameTime.ElapsedGameTime.Milliseconds;
-            backPos.Y += 0.02f * gameTime.ElapsedGameTime.Milliseconds;
+            frontPos.Y += 50 * gameTime.ElapsedGameTime.Milliseconds / 1000f;
+            backPos.Y += 20 * gameTime.ElapsedGameTime.Milliseconds / 1000f;
             if (frontPos.Y > front.Height || frontPos.Y < -back.Height)
             {
                 frontPos.Y = 0;

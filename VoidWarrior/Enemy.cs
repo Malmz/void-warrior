@@ -9,18 +9,21 @@ namespace VoidWarrior
         private Sprite sprite;
         private Vector2 startPosition;
         private Path path;
-        public Enemy(Texture2D texture, float X, float Y, Color color, float speed, double angle,  Func<float, float> func)
+        private float delay;
+        public Enemy(Texture2D texture, float X, float Y, Color color, float speed, double angle,  Func<float, float> func, float delay = 0)
         {
             this.sprite = new Sprite(texture, X, Y, color);
             this.startPosition = new Vector2(X, Y);
             path = new Path(speed, angle, func);
+            this.delay = delay;
         }
 
-        public Enemy(Texture2D texture, float X, float Y, float W, float H, Color color, float speed, double angle, Func<float, float> func)
+        public Enemy(Texture2D texture, float X, float Y, float W, float H, Color color, float speed, double angle, Func<float, float> func, float delay = 0)
         {
-            this.sprite = new Sprite(texture, 0, 0, W, H, color);
+            this.sprite = new Sprite(texture, X, Y, W, H, color);
             this.startPosition = new Vector2(X, Y);
             path = new Path(speed, angle, func);
+            this.delay = delay;
         }
 
         public void Update(GameTime gameTime)
@@ -34,6 +37,40 @@ namespace VoidWarrior
             sprite.Draw(spriteBatch);
         }
 
+        public float X
+        {
+            get { return path.X + startPosition.X; }
+            set { startPosition.X = value - path.X; }
+        }
+
+        public float Y
+        {
+            get { return path.Y + startPosition.Y; }
+            set { startPosition.Y = value - path.Y; }
+        }
+
+        public float startX
+        {
+            get { return startPosition.X; }
+            set { startPosition.X = value; }
+        }
+
+        public float startY
+        {
+            get { return startPosition.Y; }
+            set { startPosition.Y = value; }
+        }
+
+        public float Width
+        {
+            get { return sprite.Width; }
+        }
+
+        public float Height
+        {
+            get { return sprite.Height; }
+        }
+
         public Rectangle Bounds
         {
             get
@@ -41,5 +78,6 @@ namespace VoidWarrior
                 return sprite.Bounds;
             }
         }
+        public float Delay { get { return delay; } }
     }
 }

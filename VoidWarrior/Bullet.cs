@@ -42,6 +42,5 @@ namespace VoidWarrior
                 return sprite.Bounds;
             }
         }
-        
     }
 }

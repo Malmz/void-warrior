@@ -85,6 +85,7 @@ namespace VoidWarrior
         public bool IsActive
         {
             get { return isActive; }
+            set { isActive = value; }
         }
     }
 

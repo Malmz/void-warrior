@@ -42,10 +42,11 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Enemy.cs" />
-    <Compile Include="Events.cs" />
+    <Compile Include="Input.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Globals.cs" />
-    <Compile Include="Level1.cs" />
+    <Compile Include="Level.cs" />
+    <Compile Include="LevelParser.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Parallax.cs" />
     <Compile Include="Path.cs" />
@@ -55,14 +56,21 @@
     <Compile Include="ResourcePool.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Text.cs" />
-    <Compile Include="Xml_test.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.4.1.0\lib\net35\YamlDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
@@ -70,6 +78,13 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Levels\Level1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

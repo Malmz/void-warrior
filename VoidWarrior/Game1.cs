@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace VoidWarrior
 {
@@ -15,10 +15,10 @@ namespace VoidWarrior
         SpriteBatch spriteBatch;
         ResourcePool res;
         Menu mainMenu;
+        Menu levelSelect;
         Parallax parallax;
-        Level1 level;
-        Sprite cursor;
-        int currentView;
+        Level level;
+        MenuEvent.ViewType currentView;
 
         public Game1()
         {
@@ -40,6 +40,7 @@ namespace VoidWarrior
             graphics.ApplyChanges();
 
             res = new ResourcePool(Content);
+            currentView = MenuEvent.ViewType.MainMenu;
 
             base.Initialize();
         }
@@ -64,14 +65,23 @@ namespace VoidWarrior
 
         protected void LateInit()
         {
-            cursor = new Sprite(res.GetTexture("pixel"), 0, 0, 15, 15, Color.Orange);
-            level = new Level1(res);
             mainMenu = new Menu();
             mainMenu.AddText("Void Warrior", res.GetFont("Earth Orbiter"), Globals.SCREEN_WIDTH / 2, 100, Color.Yellow, Align.Center);
-            mainMenu.AddButton("Start", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 400, Color.White, Color.Yellow, MenuEvent.ChangeView(2), Align.Center);
-            mainMenu.AddButton("Level Select", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 500, Color.White, Color.Yellow, MenuEvent.ChangeView(1), Align.Center);
-            mainMenu.AddButton("Quit", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 600, Color.White, Color.Yellow, MenuEvent.Quit, Align.Center);
+            mainMenu.AddButton("Start", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 400, Color.White, Color.Yellow, MenuEvent.ChangeToLevel("Levels/Level1.json"), Align.Center);
+            mainMenu.AddButton("Level Select", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 500, Color.White, Color.Yellow, MenuEvent.ChangeView(MenuEvent.ViewType.LevelSelect), Align.Center);
+            mainMenu.AddButton("Quit", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 600, Color.White, Color.Yellow, MenuEvent.Back, Align.Center);
 
+            levelSelect = new Menu();
+            levelSelect.AddText("Select Level", res.GetFont("Earth Orbiter"), Globals.SCREEN_WIDTH / 2, 100, Color.Yellow, Align.Center);
+
+            var tempPos = new Vector2();
+
+            Directory.EnumerateFiles("Levels").ToList().ForEach(element => 
+            {
+                levelSelect.AddButton(element, res.GetFont("Guardians"), tempPos * 100, Color.White, Color.Yellow, MenuEvent.ChangeToLevel(element));
+                if (tempPos.X % 5 == 0) { tempPos.X += 1; } else { tempPos.Y += 1; tempPos.X = 0; }
+                
+            });
 
             parallax = new Parallax(res.GetTexture("BackgroundBack"), res.GetTexture("BackgroundFront"));
         }
@@ -92,45 +102,96 @@ namespace VoidWarrior
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            Events.Update();
-            if (Events.KeyDown(Keys.Escape))
-            {
-                Exit();
-            }
-            if (Events.KeyPressed(Keys.F))
+            // Update Input
+            Input.Update();
+
+            // Toggle Fullscreen
+            if (Input.KeyPressed(Keys.F))
             {
                 graphics.ToggleFullScreen();
             }
 
+            // Update background
             parallax.Update(gameTime);
-            MenuEvent menuEvent = mainMenu.Update();
-            
-            
+
             switch (currentView)
             {
-                case 0:
-                    switch (menuEvent.Event)
+                // Main Menu game loop
+                case MenuEvent.ViewType.MainMenu:
+
+                    // Exit on Ecs
+                    if (Input.KeyPressed(Keys.Escape)) { Exit(); }
+
+                    // Get events from main menu
+                    MenuEvent mainMenuEvent = mainMenu.Update(gameTime);
+
+                    // Filter events
+                    switch (mainMenuEvent.Event)
                     {
                         case MenuEvent.EventType.None:
                             break;
-                        case MenuEvent.EventType.Quit:
+                        case MenuEvent.EventType.Back:
                             Exit();
                             break;
+                        
+                         // Change current view to view in event
                         case MenuEvent.EventType.ChangeView:
-                            currentView = menuEvent.View;
+                            currentView = mainMenuEvent.View;
+                            if (mainMenuEvent.View == MenuEvent.ViewType.Level)
+                            {
+                                level = LevelParser.Parse(mainMenuEvent.LevelName, res);
+                            }
                             break;
                         default:
                             break;
                     }
                     break;
-                case 2:
-                    level.Update(gameTime);
+                
+                // Level select game loop
+                case MenuEvent.ViewType.LevelSelect:
+
+                    if (Input.KeyPressed(Keys.Escape)) { currentView = MenuEvent.ViewType.MainMenu; }
+                    MenuEvent levelSelectEvent = levelSelect.Update(gameTime);
+
+                    switch (levelSelectEvent.Event)
+                    {
+                        case MenuEvent.EventType.None:
+                            break;
+                        case MenuEvent.EventType.Back:
+                            currentView = MenuEvent.ViewType.MainMenu;
+                            break;
+                        case MenuEvent.EventType.ChangeView:
+                            currentView = levelSelectEvent.View;
+                            if (levelSelectEvent.View == MenuEvent.ViewType.Level)
+                            {
+                                level = LevelParser.Parse(levelSelectEvent.LevelName, res);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case MenuEvent.ViewType.Level:
+
+                    if (Input.KeyPressed(Keys.Escape)) { currentView = MenuEvent.ViewType.MainMenu; }
+
+                    MenuEvent levelEvent = level.Update(gameTime);
+                    switch (levelEvent.Event)
+                    {
+                        case MenuEvent.EventType.None:
+                            break;
+                        case MenuEvent.EventType.Back:
+                            currentView = MenuEvent.ViewType.MainMenu;
+                            break;
+                        case MenuEvent.EventType.ChangeView:
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     break;
             }
-
-            cursor.Position = Events.MousePosition.ToVector2();
 
             base.Update(gameTime);
         }
@@ -147,16 +208,17 @@ namespace VoidWarrior
             parallax.Draw(spriteBatch);
             switch (currentView)
             {
-                case 0:
+                case MenuEvent.ViewType.MainMenu:
                     mainMenu.Draw(spriteBatch);
                     break;
-                case 2:
+                case MenuEvent.ViewType.LevelSelect:
+                    break;
+                case MenuEvent.ViewType.Level:
                     level.Draw(spriteBatch);
                     break;
                 default:
                     break;
             }
-            cursor.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

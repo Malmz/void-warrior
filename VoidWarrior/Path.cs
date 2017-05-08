@@ -23,7 +23,7 @@ namespace VoidWarrior
 
         public void Update(GameTime gameTime)
         {
-            position.X += speed * gameTime.ElapsedGameTime.Milliseconds;
+            position.X += speed * gameTime.ElapsedGameTime.Milliseconds / 1000f;
             position.Y = func(position.X);
         }
 

@@ -3,19 +3,23 @@ using Microsoft.Xna.Framework.Input;
 
 namespace VoidWarrior
 {
-    enum MouseButtons
+    public enum MouseButtons
     {
         Left,
         Right,
         Middle,
     }
 
-    class Events
+    class Input
     {
         private static KeyboardState keystateOld = Keyboard.GetState();
         private static KeyboardState keystateNew = Keyboard.GetState();
         private static MouseState mousestateOld = Mouse.GetState();
         private static MouseState mousestateNew = Mouse.GetState();
+        private static GamePadState gamepadstateOld = GamePad.GetState(PlayerIndex.One);
+        private static GamePadState gamepadstateNew = GamePad.GetState(PlayerIndex.One);
+        private static bool gamepadConnected = gamepadstateNew.IsConnected;
+        private static Vector2 move = new Vector2();
 
         public static void Update()
         {
@@ -23,6 +27,79 @@ namespace VoidWarrior
             keystateNew = Keyboard.GetState();
             mousestateOld = mousestateNew;
             mousestateNew = Mouse.GetState();
+            gamepadstateOld = gamepadstateNew;
+            gamepadstateNew = GamePad.GetState(PlayerIndex.One);
+            gamepadConnected = gamepadstateNew.IsConnected;
+        }
+
+        public static Vector2 Joystick
+        {
+            get
+            {
+                move -= move;
+                if (gamepadConnected)
+                {
+                    move = gamepadstateNew.ThumbSticks.Left;
+                }
+                else
+                {
+                    if (KeyDown(Keys.W))
+                    {
+                        move += new Vector2(0, -1);
+                    }
+                    if (KeyDown(Keys.S))
+                    {
+                        move += new Vector2(0, 1);
+                    }
+                    if (KeyDown(Keys.A))
+                    {
+                        move += new Vector2(-1, 0);
+                    }
+                    if (KeyDown(Keys.D))
+                    {
+                        move += new Vector2(1, 0);
+                    }
+                }
+                if (move.X == 0 && move.Y == 0)
+                {
+                    return move;
+                }
+                else
+                {
+                    move.Normalize();
+                    return move;
+                }
+            }
+        }
+
+        public static bool Fire
+        {
+            get
+            {
+                return ButtonPressed(Buttons.A) || KeyPressed(Keys.Space);
+            }
+        }
+
+        public static bool ButtonDown(Buttons button)
+        {
+            return gamepadstateNew.IsButtonDown(button);
+        }
+
+        public static bool ButtonUp(Buttons button)
+        {
+            return gamepadstateNew.IsButtonUp(button);
+        }
+
+        public static bool ButtonPressed(Buttons button)
+        {
+            if (gamepadstateOld.IsButtonUp(button) && gamepadstateNew.IsButtonDown(button))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static bool KeyDown(Keys key)
