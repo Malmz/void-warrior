@@ -39,8 +39,16 @@ namespace VoidWarrior
                 player.Bullets.ForEach(bullet => {
                     if (enemy.Bounds.Intersects(bullet.Bounds))
                     {
-                        deletedEnemies.Add(enemy);
-                        deletedBullets.Add(bullet);
+                        enemy.Health -= bullet.Damage;
+                        if (enemy.Health <= 0)
+                        {
+                            deletedEnemies.Add(enemy);
+                            deletedBullets.Add(bullet);
+                        }
+                        else
+                        {
+                            deletedBullets.Add(bullet);
+                        }
                     }
                 });
                 if (player.Bounds.Intersects(enemy.Bounds))

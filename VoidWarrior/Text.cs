@@ -17,6 +17,8 @@ namespace VoidWarrior
         protected Vector2 position;
         protected Color color;
 
+        public string DisplayText { get => text; set => text = value; }
+
         public Text(string text, SpriteFont font, Vector2 position, Color color, Align align = Align.Left)
         {
             this.text = text;
