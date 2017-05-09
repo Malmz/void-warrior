@@ -29,7 +29,7 @@ namespace VoidWarrior
             var enemies = new List<Enemy>();
             levelTemplate.Enemies.ForEach(enemyT => {
                 var func = GetLambda(enemyT.Path.Func);
-                enemies.Add(new Enemy(res.GetTexture(enemyT.Texture), enemyT.Rectangle.X, enemyT.Rectangle.Y, enemyT.Rectangle.W, enemyT.Rectangle.H, new Color(enemyT.Color.R / 255f, enemyT.Color.G / 255f, enemyT.Color.B / 255f), enemyT.Path.Speed, enemyT.Path.Angle, func, enemyT.Delay));
+                enemies.Add(new Enemy(res.GetTexture(enemyT.Texture), enemyT.Rectangle.X, enemyT.Rectangle.Y, enemyT.Rectangle.W, enemyT.Rectangle.H, new Color(enemyT.Color.R / 255f, enemyT.Color.G / 255f, enemyT.Color.B / 255f), enemyT.Health, enemyT.Path.Speed, enemyT.Path.Angle, func, enemyT.Delay));
             });
 
             // create player
@@ -40,7 +40,8 @@ namespace VoidWarrior
                 levelTemplate.Player.Rectangle.Y,
                 levelTemplate.Player.Rectangle.W,
                 levelTemplate.Player.Rectangle.H,
-                new Color(levelTemplate.Player.Color.R / 255f, levelTemplate.Player.Color.G / 255f, levelTemplate.Player.Color.B / 255f)
+                new Color(levelTemplate.Player.Color.R / 255f, levelTemplate.Player.Color.G / 255f, levelTemplate.Player.Color.B / 255f),
+                res
             );
 
             return new Level(enemies, player);
@@ -63,6 +64,7 @@ namespace VoidWarrior
             public string Texture { get; set; }
             public RectangleT Rectangle { get; set; }
             public ColorT Color { get; set; }
+            public int Health { get; set; }
             public float Delay { get; set; }
             public PathT Path { get; set; }
         }
