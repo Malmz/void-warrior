@@ -19,6 +19,7 @@ namespace VoidWarrior
         Parallax parallax;
         Level level;
         MenuEvent.ViewType currentView;
+        Text controllerStatus;
 
         public Game1()
         {
@@ -83,6 +84,7 @@ namespace VoidWarrior
                 
             });
 
+            controllerStatus = new Text(Input.GamepadConnected.ToString(), res.GetFont("Guardians"), 0, 0, Color.White);
             parallax = new Parallax(res.GetTexture("BackgroundBack"), res.GetTexture("BackgroundFront"));
         }
 
@@ -206,6 +208,7 @@ namespace VoidWarrior
 
             spriteBatch.Begin();
             parallax.Draw(spriteBatch);
+            controllerStatus.Draw(spriteBatch);
             switch (currentView)
             {
                 case MenuEvent.ViewType.MainMenu:
