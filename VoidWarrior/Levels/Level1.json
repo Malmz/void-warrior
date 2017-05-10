@@ -1,6 +1,6 @@
 ﻿{
 	'Player': {
-		'Texture': 'NewShip',
+		'Texture': 'VoidShipSpriteSheet',
 		'BulletTexture': 'pixel',
 		'Rectangle': {
 			'X': 500,
@@ -163,7 +163,7 @@
 			}
 		},
 		{
-			'Texture': 'VoidShip',
+			'Texture': 'pixel',
 			'Delay': 12,
 			'Rectangle': {
 				'X': 500,
@@ -184,7 +184,7 @@
 			}
 		},
 		{
-			'Texture': 'VoidShip',
+			'Texture': 'pixel',
 			'Delay': 9,
 			'Rectangle': {
 				'X': 650,
