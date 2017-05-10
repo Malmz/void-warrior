@@ -49,5 +49,20 @@ namespace VoidWarrior
                 return position.X * (float)Math.Sin(angle) + position.Y * (float)Math.Cos(angle);
             }
         }
+
+        public float Speed
+        {
+            get { return speed; }
+        }
+
+        public double Angle
+        {
+            get { return -angle * 180 / Math.PI; }
+        }
+
+        public Func<float, float> Func
+        {
+            get { return func; }
+        }
     }
 }

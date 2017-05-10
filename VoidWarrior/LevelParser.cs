@@ -41,7 +41,7 @@ namespace VoidWarrior
                 levelTemplate.Player.Rectangle.W,
                 levelTemplate.Player.Rectangle.H,
                 new Color(levelTemplate.Player.Color.R / 255f, levelTemplate.Player.Color.G / 255f, levelTemplate.Player.Color.B / 255f),
-                res
+                res.GetSound("Shoot")
             );
 
             return new Level(enemies, player);

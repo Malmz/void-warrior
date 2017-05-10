@@ -38,6 +38,14 @@ namespace VoidWarrior
             sprite.Draw(spriteBatch);
         }
 
+        public Bullet Clone
+        {
+            get
+            {
+                return new Bullet(sprite.Texture, startPos.X, startPos.Y, sprite.Width, sprite.Height, sprite.Color, damage, path.Speed, path.Angle, path.Func);
+            }
+        }
+
         public Rectangle Bounds
         {
             get
@@ -57,6 +65,12 @@ namespace VoidWarrior
             {
                 damage = value;
             }
+        }
+
+        public Vector2 StartPos
+        {
+            get { return startPos; }
+            set { startPos = value; }
         }
     }
 }
