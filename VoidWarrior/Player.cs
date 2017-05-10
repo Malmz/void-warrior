@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -24,24 +25,23 @@ namespace VoidWarrior
         private const float SPEED = 300f;
         private SpriteSheet sprite;
         private Texture2D bulletTexture;
+        private SoundEffect shootSound;
         private Vector2 move;
-        private List<Bullet> bullets;
         private int health;
+        private Gun gun;
         private Direction direction;
-        private Text debug;
         
 
-        public Player(Texture2D shipTexture, Texture2D bulletTexture, float X, float Y, float W, float H, Color color, ResourcePool res, int health = 1)
+        public Player(Texture2D shipTexture, Texture2D bulletTexture, float X, float Y, float W, float H, Color color, SoundEffect shootSound, int health = 1)
         {
             this.bulletTexture = bulletTexture;
-            this.bullets = new List<Bullet>();
             sprite = new SpriteSheet(shipTexture, X, Y, W, H, color);
-            sprite.AutoTile(54, 63);
+            sprite.AutoTile(512, 512);
             move = new Vector2();
             direction = Direction.Center;
             this.health = health;
-            debug = new Text("", res.GetFont("Earth Orbiter"), 0, 0, Color.White);
-
+            this.shootSound = shootSound;
+            this.gun = new Gun(20, 0.2f, new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 1, 500, 90, x => 0));
         }
 
         private void MoveInside(Rectangle parent)
@@ -71,7 +71,11 @@ namespace VoidWarrior
         {
             if (Input.Fire)
             {
-                bullets.Add(new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 1, 500, 90, x => 0));
+                gun.Position = new Vector2(sprite.X + sprite.Width / 2 - 2, sprite.Y);
+                if (gun.Fire())
+                {
+                    shootSound.Play();
+                }
             }
 
             var rangeSwitch = new Dictionary<Func<double, bool>, Action>
@@ -90,19 +94,17 @@ namespace VoidWarrior
             if (move.X == 0 && move.Y == 0)
             {
                 direction = Direction.Center;
-                debug.DisplayText = "Null";
             }
             else
             {
                 rangeSwitch.First(sw => sw.Key(Angle(move))).Value();
-                debug.DisplayText = Angle(move).ToString();
             }
 
             sprite.Position += move * SPEED * gameTime.ElapsedGameTime.Milliseconds / 1000f;
             move -= move;
             MoveInside(Globals.SCREEN);
-            bullets = bullets.Where(x => Globals.SCREEN.Contains(x.Bounds)).ToList();
-            bullets.ForEach(x => x.Update(gameTime));
+            gun.Range(Globals.SCREEN);
+            gun.Update(gameTime);
         }
 
         private double Angle(Vector2 vector)
@@ -112,7 +114,7 @@ namespace VoidWarrior
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            bullets.ForEach(x => x.Draw(spriteBatch));
+            gun.Draw(spriteBatch);
             switch (direction)
             {
                 case Direction.TopLeft:
@@ -146,7 +148,6 @@ namespace VoidWarrior
                     sprite.Draw("R1C1", spriteBatch);
                     break;
             }
-            debug.Draw(spriteBatch);
         }
 
         public Vector2 Position
@@ -179,12 +180,12 @@ namespace VoidWarrior
         {
             get
             {
-                return bullets;
+                return gun.Bullets;
             }
 
             set
             {
-                bullets = value;
+                gun.Bullets = value;
             }
         }
         public Rectangle Bounds

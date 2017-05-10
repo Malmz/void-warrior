@@ -115,5 +115,13 @@ namespace VoidWarrior
                 return rect;
             }
         }
+        public Texture2D Texture
+        {
+            get { return texture; }
+        }
+        public Color Color
+        {
+            get { return color; }
+        }
     }
 }

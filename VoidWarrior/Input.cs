@@ -133,7 +133,10 @@ namespace VoidWarrior
             }
         }
 
-        public static bool GamepadConnected { get => gamepadConnected; set => gamepadConnected = value; }
+        public static bool GamepadConnected {
+            get { return gamepadConnected; }
+            set { gamepadConnected = value; }
+        }
 
         public static bool MouseDown(MouseButtons button)
         {

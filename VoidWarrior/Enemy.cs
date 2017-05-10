@@ -83,6 +83,9 @@ namespace VoidWarrior
         }
         public float Delay { get { return delay; } }
 
-        public int Health { get => health; set => health = value; }
+        public int Health {
+            get { return health; }
+            set { health = value; }
+        }
     }
 }

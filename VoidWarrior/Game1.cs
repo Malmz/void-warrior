@@ -54,12 +54,14 @@ namespace VoidWarrior
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            res.AddTexture("VoidShip");
-            res.AddTexture("pixel");
-            res.AddTexture("BackgroundBack");
-            res.AddTexture("BackgroundFront");
-            res.AddFont("Guardians");
-            res.AddFont("Earth Orbiter");
+            res.LoadTexture("VoidShip");
+            res.LoadTexture("NewShip");
+            res.LoadTexture("pixel");
+            res.LoadTexture("BackgroundBack");
+            res.LoadTexture("BackgroundFront");
+            res.LoadFont("Guardians");
+            res.LoadFont("Earth Orbiter");
+            res.LoadSound("Shoot");
 
             LateInit();
         }
