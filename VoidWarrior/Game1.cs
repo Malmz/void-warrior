@@ -113,6 +113,8 @@ namespace VoidWarrior
                 graphics.ToggleFullScreen();
             }
 
+            controllerStatus.DisplayText = Input.GamepadConnected.ToString();
+
             // Update background
             parallax.Update(gameTime);
 

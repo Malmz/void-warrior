@@ -69,7 +69,7 @@ namespace VoidWarrior
         }
         public void Update(GameTime gameTime)
         {
-            if (Input.KeyPressed(Keys.Space))
+            if (Input.Fire)
             {
                 bullets.Add(new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 1, 500, 90, x => 0));
             }

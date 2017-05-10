@@ -40,6 +40,7 @@ namespace VoidWarrior
                 if (gamepadConnected)
                 {
                     move = gamepadstateNew.ThumbSticks.Left;
+                    move.Y = -move.Y;
                 }
                 else
                 {
