@@ -35,7 +35,7 @@ namespace VoidWarrior
         {
             this.bulletTexture = bulletTexture;
             this.bullets = new List<Bullet>();
-            sprite = new AnimatedSprite(shipTexture, X, Y, W, H, color);
+            sprite = new SpriteSheet(shipTexture, X, Y, W, H, color);
             sprite.AutoTile(512, 512);
             move = new Vector2();
             direction = Direction.Center;
