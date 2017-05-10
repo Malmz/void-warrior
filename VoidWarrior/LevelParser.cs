@@ -65,6 +65,7 @@ namespace VoidWarrior
             public string Texture { get; set; }
             public RectangleT Rectangle { get; set; }
             public ColorT Color { get; set; }
+            public int Health { get; set; }
             public float Delay { get; set; }
             public PathT Path { get; set; }
         }

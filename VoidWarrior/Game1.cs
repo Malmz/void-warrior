@@ -54,6 +54,7 @@ namespace VoidWarrior
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             res.AddTexture("VoidShip");
+            res.AddTexture("NewShip");
             res.AddTexture("pixel");
             res.AddTexture("BackgroundBack");
             res.AddTexture("BackgroundFront");

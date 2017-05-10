@@ -26,17 +26,20 @@ namespace VoidWarrior
         private Texture2D bulletTexture;
         private Vector2 move;
         private List<Bullet> bullets;
+        private int health;
         private Direction direction;
         
 
-        public Player(Texture2D shipTexture, Texture2D bulletTexture, float X, float Y, float W, float H, Color color)
+        public Player(Texture2D shipTexture, Texture2D bulletTexture, float X, float Y, float W, float H, Color color, int health = 1)
         {
             this.bulletTexture = bulletTexture;
             this.bullets = new List<Bullet>();
             sprite = new AnimatedSprite(shipTexture, X, Y, W, H, color);
-            sprite.AutoTile(54, 63);
+            sprite.AutoTile(512, 512);
             move = new Vector2();
             direction = Direction.Center;
+            this.health = health;
+
         }
 
         private void MoveInside(Rectangle parent)
@@ -66,7 +69,7 @@ namespace VoidWarrior
         {
             if (Input.KeyPressed(Keys.Space))
             {
-                bullets.Add(new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 500, 90, x => 0));
+                bullets.Add(new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 1, 500, 90, x => 0));
             }
 
             var rangeSwitch = new Dictionary<Func<double, bool>, Action>
@@ -182,6 +185,19 @@ namespace VoidWarrior
         public Rectangle Bounds
         {
             get { return sprite.Bounds; }
+        }
+
+        public int Health
+        {
+            get
+            {
+                return health;
+            }
+
+            set
+            {
+                health = value;
+            }
         }
     }
 }

@@ -9,21 +9,24 @@ namespace VoidWarrior
         private Sprite sprite;
         private Vector2 startPosition;
         private Path path;
+        private int health;
         private float delay;
-        public Enemy(Texture2D texture, float X, float Y, Color color, float speed, double angle,  Func<float, float> func, float delay = 0)
+        public Enemy(Texture2D texture, float X, float Y, Color color, int health, float speed, double angle, Func<float, float> func, float delay = 0)
         {
             this.sprite = new Sprite(texture, X, Y, color);
             this.startPosition = new Vector2(X, Y);
             path = new Path(speed, angle, func);
             this.delay = delay;
+            this.health = health;
         }
 
-        public Enemy(Texture2D texture, float X, float Y, float W, float H, Color color, float speed, double angle, Func<float, float> func, float delay = 0)
+        public Enemy(Texture2D texture, float X, float Y, float W, float H, Color color, int health, float speed, double angle, Func<float, float> func, float delay = 0)
         {
             this.sprite = new Sprite(texture, X, Y, W, H, color);
             this.startPosition = new Vector2(X, Y);
             path = new Path(speed, angle, func);
             this.delay = delay;
+            this.health = health;
         }
 
         public void Update(GameTime gameTime)
