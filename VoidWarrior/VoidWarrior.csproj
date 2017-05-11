@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Gun.cs" />
+    <Compile Include="FloatRectangle.cs" />
+    <Compile Include="Ui\Progress\Bar.cs" />
     <Compile Include="SpriteSheet.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Button.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="ResourcePool.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Text.cs" />
+    <Compile Include="Ui\Progress\Square.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -86,7 +89,9 @@
     </Content>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Ui\Menu\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

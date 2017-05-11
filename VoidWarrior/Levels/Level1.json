@@ -1,4 +1,5 @@
 ﻿{
+	'UiFont': 'Forced',
 	'Player': {
 		'Texture': 'VoidShipSpriteSheet',
 		'BulletTexture': 'pixel',
@@ -18,6 +19,7 @@
 		{
 			'Texture': 'pixel',
 			'Delay': 1,
+			'Value': 10,
 			'Rectangle': {
 				'X': 500,
 				'Y': -100,
@@ -39,6 +41,7 @@
 		{
 			'Texture': 'pixel',
 			'Delay': 2.5,
+			'Value': 50,
 			'Rectangle': {
 				'X': 650,
 				'Y': -100,
@@ -60,6 +63,7 @@
 		{
 			'Texture': 'pixel',
 			'Delay': 2.5,
+			'Value': 15,
 			'Rectangle': {
 				'X': -100,
 				'Y': 150,
@@ -81,6 +85,7 @@
 		{
 			'Texture': 'pixel',
 			'Delay': 4,
+			'Value': 30,
 			'Rectangle': {
 				'X': 800,
 				'Y': -100,
@@ -102,6 +107,7 @@
 		{
 			'Texture': 'pixel',
 			'Delay': 5.2,
+			'Value': 60,
 			'Rectangle': {
 				'X': 700,
 				'Y': -100,
@@ -123,6 +129,7 @@
 		{
 			'Texture': 'BackgroundBack',
 			'Delay': 5.2,
+			'Value': 500,
 			'Rectangle': {
 				'X': 200,
 				'Y': -100,
@@ -144,6 +151,7 @@
 		{
 			'Texture': 'pixel',
 			'Delay': 7,
+			'Value': 350,
 			'Rectangle': {
 				'X': 300,
 				'Y': -100,
@@ -165,6 +173,7 @@
 		{
 			'Texture': 'pixel',
 			'Delay': 12,
+			'Value': 10,
 			'Rectangle': {
 				'X': 500,
 				'Y': -100,
@@ -186,6 +195,7 @@
 		{
 			'Texture': 'pixel',
 			'Delay': 9,
+			'Value': 10,
 			'Rectangle': {
 				'X': 650,
 				'Y': -100,
@@ -207,6 +217,7 @@
 		{
 			'Texture': 'pixel',
 			'Delay': 13,
+			'Value': 800,
 			'Rectangle': {
 				'X': 800,
 				'Y': -100,

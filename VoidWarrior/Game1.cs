@@ -19,7 +19,7 @@ namespace VoidWarrior
         Parallax parallax;
         Level level;
         MenuEvent.ViewType currentView;
-        Text controllerStatus;
+        //Text controllerStatus;
 
         public Game1()
         {
@@ -60,6 +60,7 @@ namespace VoidWarrior
             res.LoadTexture("BackgroundFront");
             res.LoadFont("Guardians");
             res.LoadFont("Earth Orbiter");
+            res.LoadFont("Forced");
             res.LoadSound("Shoot");
 
             LateInit();
@@ -85,7 +86,7 @@ namespace VoidWarrior
                 
             });
 
-            controllerStatus = new Text(Input.GamepadConnected.ToString(), res.GetFont("Guardians"), 0, 0, Color.White);
+            //controllerStatus = new Text(Input.GamepadConnected.ToString(), res.GetFont("Guardians"), 0, 0, Color.White);
             parallax = new Parallax(res.GetTexture("BackgroundBack"), res.GetTexture("BackgroundFront"));
         }
 
@@ -114,7 +115,7 @@ namespace VoidWarrior
                 graphics.ToggleFullScreen();
             }
 
-            controllerStatus.DisplayText = Input.GamepadConnected.ToString();
+            //controllerStatus.DisplayText = Input.GamepadConnected.ToString();
 
             // Update background
             parallax.Update(gameTime);
@@ -211,7 +212,7 @@ namespace VoidWarrior
 
             spriteBatch.Begin();
             parallax.Draw(spriteBatch);
-            controllerStatus.Draw(spriteBatch);
+            //controllerStatus.Draw(spriteBatch);
             switch (currentView)
             {
                 case MenuEvent.ViewType.MainMenu:

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using VoidWarrior.Ui.Progress;
 
 namespace VoidWarrior
 {
@@ -29,6 +30,7 @@ namespace VoidWarrior
         private Vector2 move;
         private int health;
         private Gun gun;
+        private Bar ammoBar;
         private Direction direction;
         
 
@@ -41,7 +43,8 @@ namespace VoidWarrior
             direction = Direction.Center;
             this.health = health;
             this.shootSound = shootSound;
-            this.gun = new Gun(20, 0.2f, new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 1, 500, 90, x => 0));
+            gun = new Gun(8, 0.2f, 2f, new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 1, 500, 90, x => 0));
+            ammoBar = new Bar(bulletTexture, 10, Globals.SCREEN_HEIGHT - 20, 100, 10, gun.MagazineSize, gun.MagazineSize, Color.Yellow);
         }
 
         private void MoveInside(Rectangle parent)
@@ -54,17 +57,17 @@ namespace VoidWarrior
             {
                 sprite.X = parent.X;
             }
-            else if (sprite.X + sprite.Width > parent.Width)
+            else if (sprite.X + sprite.Width > parent.X + parent.Width)
             {
-                sprite.X = parent.Width - sprite.Width;
+                sprite.X = parent.X + parent.Width - sprite.Width;
             }
             if (sprite.Y < parent.Y)
             {
                 sprite.Y = parent.Y;
             }
-            else if (sprite.Y + sprite.Height > parent.Height)
+            else if (sprite.Y + sprite.Height > parent.Y + parent.Height)
             {
-                sprite.Y = parent.Height - sprite.Height;
+                sprite.Y = parent.Y + parent.Height - sprite.Height;
             }
         }
         public void Update(GameTime gameTime)
@@ -77,6 +80,13 @@ namespace VoidWarrior
                     shootSound.Play();
                 }
             }
+
+            if (Input.Reload)
+            {
+                gun.Reload();
+            }
+
+            ammoBar.Value = gun.Ammo;
 
             var rangeSwitch = new Dictionary<Func<double, bool>, Action>
             {
@@ -115,6 +125,7 @@ namespace VoidWarrior
         public void Draw(SpriteBatch spriteBatch)
         {
             gun.Draw(spriteBatch);
+            ammoBar.Draw(spriteBatch);
             switch (direction)
             {
                 case Direction.TopLeft:

@@ -81,6 +81,14 @@ namespace VoidWarrior
             }
         }
 
+        public static bool Reload
+        {
+            get
+            {
+                return ButtonPressed(Buttons.X) || KeyPressed(Keys.R);
+            }
+        }
+
         public static bool ButtonDown(Buttons button)
         {
             return gamepadstateNew.IsButtonDown(button);

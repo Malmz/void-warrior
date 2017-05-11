@@ -29,7 +29,7 @@ namespace VoidWarrior
             var enemies = new List<Enemy>();
             levelTemplate.Enemies.ForEach(enemyT => {
                 var func = GetLambda(enemyT.Path.Func);
-                enemies.Add(new Enemy(res.GetTexture(enemyT.Texture), enemyT.Rectangle.X, enemyT.Rectangle.Y, enemyT.Rectangle.W, enemyT.Rectangle.H, new Color(enemyT.Color.R / 255f, enemyT.Color.G / 255f, enemyT.Color.B / 255f), enemyT.Health, enemyT.Path.Speed, enemyT.Path.Angle, func, enemyT.Delay));
+                enemies.Add(new Enemy(res.GetTexture(enemyT.Texture), res.GetTexture("pixel"), enemyT.Rectangle.X, enemyT.Rectangle.Y, enemyT.Rectangle.W, enemyT.Rectangle.H, new Color(enemyT.Color.R / 255f, enemyT.Color.G / 255f, enemyT.Color.B / 255f), enemyT.Health, enemyT.Value, enemyT.Path.Speed, enemyT.Path.Angle, func, enemyT.Delay));
             });
 
             // create player
@@ -44,13 +44,14 @@ namespace VoidWarrior
                 res.GetSound("Shoot")
             );
 
-            return new Level(enemies, player);
+            return new Level(enemies, player, res.GetFont(levelTemplate.UiFont));
         }
 
         private class LevelT
         {
             public PlayerT Player { get; set; }
             public List<EnemyT> Enemies { get; set; }
+            public string UiFont { get; set; }
         }
         private class PlayerT
         {
@@ -65,6 +66,7 @@ namespace VoidWarrior
             public RectangleT Rectangle { get; set; }
             public ColorT Color { get; set; }
             public int Health { get; set; }
+            public int Value { get; set; }
             public float Delay { get; set; }
             public PathT Path { get; set; }
         }

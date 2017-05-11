@@ -16,14 +16,12 @@
 #begin Guardians.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Guardians.spritefont
 
 #begin Earth Orbiter.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Earth Orbiter.spritefont
 
@@ -80,4 +78,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:VoidShipSpriteSheet.png
+
+#begin Forced.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Forced.spritefont
 

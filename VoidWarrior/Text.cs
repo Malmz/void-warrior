@@ -22,6 +22,44 @@ namespace VoidWarrior
             set { text = value; }
         }
 
+        public float X
+        {
+            get { return position.X; }
+            set { position.X = value; }
+        }
+
+        public float Y
+        {
+            get { return position.Y; }
+            set { position.Y = value; }
+        }
+
+        public Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+        public float Width
+        {
+            get { return Size.X; }
+        }
+
+        public float Height
+        {
+            get { return Size.Y; }
+        }
+
+        public Vector2 Size
+        {
+            get { return font.MeasureString(text); }
+        }
+
+        public Rectangle Bounds
+        {
+            get { return new Rectangle(Position.ToPoint(), Size.ToPoint()); }
+        }
+
         public Text(string text, SpriteFont font, Vector2 position, Color color, Align align = Align.Left)
         {
             this.text = text;
