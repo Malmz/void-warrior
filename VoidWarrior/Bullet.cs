@@ -11,6 +11,16 @@ namespace VoidWarrior
         private Path path;
         private int damage;
 
+        public Bullet(Sprite sprite, int damage, Path path)
+        {
+            startPos = sprite.Position;
+            this.sprite = sprite;
+            this.sprite.Position = new Vector2();
+            this.path = path;
+            this.damage = damage;
+        }
+
+        /*
         public Bullet(Texture2D texture, float X, float Y, Color color, int damage, float speed, double angle, Func<float, float> func)
         {
             this.startPos = new Vector2(X, Y);
@@ -19,6 +29,7 @@ namespace VoidWarrior
             this.damage = damage;
         }
 
+        
         public Bullet(Texture2D texture, float X, float Y, float W, float H, Color color, int damage, float speed, double angle, Func<float, float> func)
         {
             this.startPos = new Vector2(X, Y);
@@ -27,6 +38,7 @@ namespace VoidWarrior
             this.damage = damage;
         }
 
+        */
         public void Update(GameTime gameTime)
         {
             path.Update(gameTime);
@@ -42,7 +54,7 @@ namespace VoidWarrior
         {
             get
             {
-                return new Bullet(sprite.Texture, startPos.X, startPos.Y, sprite.Width, sprite.Height, sprite.Color, damage, path.Speed, path.Angle, path.Func);
+                return new Bullet(new Sprite(sprite.Texture, startPos.X, startPos.Y, sprite.Width, sprite.Height, sprite.SourceRectangle, sprite.Color), damage, new Path(path.Speed, path.Angle, path.Func));
             }
         }
 

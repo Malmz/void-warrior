@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
 using System.Linq;
+using VoidWarrior.Ui.Menu;
+using VoidWarrior.View;
 
 namespace VoidWarrior
 {
@@ -18,7 +20,7 @@ namespace VoidWarrior
         Menu levelSelect;
         Parallax parallax;
         Level level;
-        MenuEvent.ViewType currentView;
+        IView currentView;
         //Text controllerStatus;
 
         public Game1()
@@ -41,7 +43,6 @@ namespace VoidWarrior
             graphics.ApplyChanges();
 
             res = new ResourcePool(Content);
-            currentView = MenuEvent.ViewType.MainMenu;
 
             base.Initialize();
         }
@@ -55,6 +56,8 @@ namespace VoidWarrior
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             res.LoadTexture("VoidShipSpriteSheet");
+            res.LoadTexture("BulletSpriteSheet");
+            res.LoadTexture("EnemyShip");
             res.LoadTexture("pixel");
             res.LoadTexture("BackgroundBack");
             res.LoadTexture("BackgroundFront");
@@ -69,10 +72,35 @@ namespace VoidWarrior
         protected void LateInit()
         {
             mainMenu = new Menu();
-            mainMenu.AddText("Void Warrior", res.GetFont("Earth Orbiter"), Globals.SCREEN_WIDTH / 2, 100, Color.Yellow, Align.Center);
-            mainMenu.AddButton("Start", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 400, Color.White, Color.Yellow, MenuEvent.ChangeToLevel("Levels/Level1.json"), Align.Center);
-            mainMenu.AddButton("Level Select", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 500, Color.White, Color.Yellow, MenuEvent.ChangeView(MenuEvent.ViewType.LevelSelect), Align.Center);
-            mainMenu.AddButton("Quit", res.GetFont("Guardians"), Globals.SCREEN_WIDTH / 2, 600, Color.White, Color.Yellow, MenuEvent.Back, Align.Center);
+            mainMenu.AddStatic(new Text(
+                "Void Warrior", 
+                res.GetFont("Earth Orbiter"), 
+                new Vector2(Globals.SCREEN_WIDTH / 2, 100), 
+                Color.Yellow, 
+                Align.Center));
+            mainMenu.AddInteractive(new Button(
+                "Start", 
+                res.GetFont("Guardians"), 
+                new Vector2(Globals.SCREEN_WIDTH / 2, 400), 
+                Color.White, Color.Yellow,
+                ViewEvent.ChangeView(LevelParser.Parse("Levels/Level2.json", res)), 
+                Align.Center));
+            mainMenu.AddInteractive(new Button(
+                "Level Select", 
+                res.GetFont("Guardians"), 
+                new Vector2(Globals.SCREEN_WIDTH / 2, 500), 
+                Color.White, Color.Yellow, 
+                ViewEvent.ChangeView(levelSelect),
+                Align.Center));
+            mainMenu.AddInteractive(new Button(
+                "Quit", 
+                res.GetFont("Guardians"),
+                new Vector2(Globals.SCREEN_WIDTH / 2, 600), 
+                Color.White, Color.Yellow, 
+                ViewEvent.Back, 
+                Align.Center));
+
+            currentView = mainMenu;
 
             levelSelect = new Menu();
             levelSelect.AddText("Select Level", res.GetFont("Earth Orbiter"), Globals.SCREEN_WIDTH / 2, 100, Color.Yellow, Align.Center);

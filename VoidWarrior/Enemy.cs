@@ -37,6 +37,17 @@ namespace VoidWarrior
 
         }
 
+        public Enemy(Sprite sprite, Texture2D healthBarTexture, int health, int value, Path path, float delay = 0)
+        {
+            this.sprite = sprite;
+            startPosition = sprite.Position;
+            this.path = path;
+            this.delay = delay;
+            this.health = health;
+            this.value = value;
+            healthBar = new Bar(healthBarTexture, X + sprite.Width / 2 - 80 / 2, Y + sprite.Height + 10, 80, 6, health, health, Color.Red);
+        }
+
         public void Update(GameTime gameTime)
         {
             path.Update(gameTime);

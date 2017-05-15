@@ -1,0 +1,62 @@
+﻿{
+	'UiFont': 'Forced',
+	'Player': {
+		'Rectangle': {
+			'X': 50,
+			'Y': 93,
+			'W': 70,
+			'H': 70
+		},
+		'Color': {
+			'R': 255,
+			'G': 255,
+			'B': 255,
+		}
+	},
+	'Enemies': [
+		{
+			'Texture': 'EnemyShip',
+			'Delay': 1,
+			'Value': 10,
+			'Rectangle': {
+				'X': 50,
+				'Y': -6,
+				'W': 70,
+				'H': 70
+			},
+			'Color': {
+				'R': 255,
+				'G': 255,
+				'B': 255
+			},
+			'Health': 2,
+			'Path': {
+				'Speed': 100,
+				'Angle': 270,
+				'Func': "0"
+			}
+		},
+		{
+			'Texture': 'EnemyShip',
+			'Delay': 3,
+			'Value': 10,
+			'Rectangle': {
+				'X': 50,
+				'Y': -6,
+				'W': 70,
+				'H': 70
+			},
+			'Color': {
+				'R': 255,
+				'G': 255,
+				'B': 255
+			},
+			'Health': 2,
+			'Path': {
+				'Speed': 100,
+				'Angle': 270,
+				'Func': "0"
+			}
+		},
+	]
+}

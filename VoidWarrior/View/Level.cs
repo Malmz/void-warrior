@@ -2,10 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
+using VoidWarrior.Ui.Menu;
 
-namespace VoidWarrior
+namespace VoidWarrior.View
 {
-    class Level
+    class Level : IView
     {
 
         private List<Enemy> enemies;
@@ -16,6 +17,7 @@ namespace VoidWarrior
         private float time;
         private Text scoreUi;
         private Text multiplierUi;
+        private List<ViewEvent> viewEvents;
 
         public Level(List<Enemy> enemies, Player player, SpriteFont uiFont)
         {
@@ -29,9 +31,9 @@ namespace VoidWarrior
             this.multiplierUi = new Text(multiplier.ToString(), uiFont, 200, 0, Color.White, Align.Right);
         }
 
-        public MenuEvent Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            MenuEvent _event = MenuEvent.None;
+            ViewEvent _event = ViewEvent.None;
             activeEnemies = enemies.Where(enemy => enemy.Delay < time).ToList();
 
             activeEnemies.ForEach(x => x.Update(gameTime));
@@ -60,7 +62,7 @@ namespace VoidWarrior
                 });
                 if (player.Bounds.Intersects(enemy.Bounds))
                 {
-                    _event = MenuEvent.Back;
+                    _event = ViewEvent.Back;
                 }
             });
 
@@ -71,7 +73,7 @@ namespace VoidWarrior
             scoreUi.DisplayText = "Score: " + score.ToString();
             multiplierUi.DisplayText = "x" + multiplier.ToString();
             multiplierUi.X = scoreUi.X + scoreUi.Width + 10;
-            return _event;
+            viewEvents.Add(_event);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -82,6 +84,6 @@ namespace VoidWarrior
             multiplierUi.Draw(spriteBatch);
         }
 
-
+        public List<ViewEvent> Events { get { return viewEvents; } }
     }
 }

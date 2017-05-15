@@ -1,8 +1,6 @@
 ﻿{
 	'UiFont': 'Forced',
 	'Player': {
-		'Texture': 'VoidShipSpriteSheet',
-		'BulletTexture': 'pixel',
 		'Rectangle': {
 			'X': 500,
 			'Y': 600,
@@ -17,7 +15,7 @@
 	},
 	'Enemies': [
 		{
-			'Texture': 'pixel',
+			'Texture': 'EnemyShip',
 			'Delay': 1,
 			'Value': 10,
 			'Rectangle': {
@@ -39,7 +37,7 @@
 			}
 		},
 		{
-			'Texture': 'pixel',
+			'Texture': 'EnemyShip',
 			'Delay': 2.5,
 			'Value': 50,
 			'Rectangle': {
@@ -61,7 +59,7 @@
 			}
 		},
 		{
-			'Texture': 'pixel',
+			'Texture': 'EnemyShip',
 			'Delay': 2.5,
 			'Value': 15,
 			'Rectangle': {
@@ -83,7 +81,7 @@
 			}
 		},
 		{
-			'Texture': 'pixel',
+			'Texture': 'EnemyShip',
 			'Delay': 4,
 			'Value': 30,
 			'Rectangle': {
@@ -105,7 +103,7 @@
 			}
 		},
 		{
-			'Texture': 'pixel',
+			'Texture': 'EnemyShip',
 			'Delay': 5.2,
 			'Value': 60,
 			'Rectangle': {
@@ -149,7 +147,7 @@
 			}
 		},
 		{
-			'Texture': 'pixel',
+			'Texture': 'EnemyShip',
 			'Delay': 7,
 			'Value': 350,
 			'Rectangle': {
@@ -171,7 +169,7 @@
 			}
 		},
 		{
-			'Texture': 'pixel',
+			'Texture': 'EnemyShip',
 			'Delay': 12,
 			'Value': 10,
 			'Rectangle': {
@@ -193,7 +191,7 @@
 			}
 		},
 		{
-			'Texture': 'pixel',
+			'Texture': 'EnemyShip',
 			'Delay': 9,
 			'Value': 10,
 			'Rectangle': {
@@ -215,7 +213,7 @@
 			}
 		},
 		{
-			'Texture': 'pixel',
+			'Texture': 'EnemyShip',
 			'Delay': 13,
 			'Value': 800,
 			'Rectangle': {

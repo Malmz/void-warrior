@@ -25,24 +25,62 @@ namespace VoidWarrior
         {
             var levelTemplate = JsonConvert.DeserializeObject<LevelT>(File.ReadAllText(name));
 
+            float translateX = 1 / (100f / Globals.SCREEN_WIDTH);
+            float translateY = 1 / (100f / Globals.SCREEN_HEIGHT);
+
             // Add all enemies to the list
             var enemies = new List<Enemy>();
             levelTemplate.Enemies.ForEach(enemyT => {
                 var func = GetLambda(enemyT.Path.Func);
-                enemies.Add(new Enemy(res.GetTexture(enemyT.Texture), res.GetTexture("pixel"), enemyT.Rectangle.X, enemyT.Rectangle.Y, enemyT.Rectangle.W, enemyT.Rectangle.H, new Color(enemyT.Color.R / 255f, enemyT.Color.G / 255f, enemyT.Color.B / 255f), enemyT.Health, enemyT.Value, enemyT.Path.Speed, enemyT.Path.Angle, func, enemyT.Delay));
+                enemies.Add(new Enemy(
+                    new Sprite(res.GetTexture(enemyT.Texture), 
+                        enemyT.Rectangle.X * translateX - enemyT.Rectangle.X / 2,
+                        enemyT.Rectangle.Y * translateY - enemyT.Rectangle.Y / 2,
+                        enemyT.Rectangle.W, 
+                        enemyT.Rectangle.H, 
+                    new Color(enemyT.Color.R / 255f, enemyT.Color.G / 255f, enemyT.Color.B / 255f)),
+                    res.GetTexture("pixel"), enemyT.Health, enemyT.Value, 
+                    new Path(enemyT.Path.Speed, enemyT.Path.Angle, func), 
+                    enemyT.Delay));
             });
 
             // create player
             var player = new Player(
-                res.GetTexture(levelTemplate.Player.Texture),
-                res.GetTexture(levelTemplate.Player.BulletTexture),
+                res,
+                levelTemplate.Player.Rectangle.X * translateX - levelTemplate.Player.Rectangle.W / 2,
+                levelTemplate.Player.Rectangle.Y * translateY - levelTemplate.Player.Rectangle.H / 2,
+                levelTemplate.Player.Rectangle.W,
+                levelTemplate.Player.Rectangle.H,
+                new Color(levelTemplate.Player.Color.R / 255f, levelTemplate.Player.Color.G / 255f, levelTemplate.Player.Color.B / 255f)
+            );
+
+            /*
+            // Add all enemies to the list
+            var enemies = new List<Enemy>();
+            levelTemplate.Enemies.ForEach(enemyT => {
+                var func = GetLambda(enemyT.Path.Func);
+                enemies.Add(new Enemy(
+                    new Sprite(res.GetTexture(enemyT.Texture),
+                        enemyT.Rectangle.X,
+                        enemyT.Rectangle.Y,
+                        enemyT.Rectangle.W,
+                        enemyT.Rectangle.H,
+                    new Color(enemyT.Color.R / 255f, enemyT.Color.G / 255f, enemyT.Color.B / 255f)),
+                    res.GetTexture("pixel"), enemyT.Health, enemyT.Value,
+                    new Path(enemyT.Path.Speed, enemyT.Path.Angle, func),
+                    enemyT.Delay));
+            });
+
+            // create player
+            var player = new Player(
+                res,
                 levelTemplate.Player.Rectangle.X,
                 levelTemplate.Player.Rectangle.Y,
                 levelTemplate.Player.Rectangle.W,
                 levelTemplate.Player.Rectangle.H,
-                new Color(levelTemplate.Player.Color.R / 255f, levelTemplate.Player.Color.G / 255f, levelTemplate.Player.Color.B / 255f),
-                res.GetSound("Shoot")
+                new Color(levelTemplate.Player.Color.R / 255f, levelTemplate.Player.Color.G / 255f, levelTemplate.Player.Color.B / 255f)
             );
+            */
 
             return new Level(enemies, player, res.GetFont(levelTemplate.UiFont));
         }
@@ -55,8 +93,6 @@ namespace VoidWarrior
         }
         private class PlayerT
         {
-            public string Texture { get; set; }
-            public string BulletTexture { get; set; }
             public RectangleT Rectangle { get; set; }
             public ColorT Color { get; set; }
         }
