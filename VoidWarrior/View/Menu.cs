@@ -17,6 +17,7 @@ namespace VoidWarrior.View
         {
             statics = new List<IStatic>();
             interactives = new List<IInteractive>();
+            viewEvents = new List<ViewEvent>();
             inputDelay = 0;
         }
 

@@ -23,12 +23,13 @@ namespace VoidWarrior.View
         {
             this.enemies = enemies;
             this.player = player;
-            this.activeEnemies = new List<Enemy>();
-            this.time = 0;
-            this.score = 0;
-            this.multiplier = 1;
-            this.scoreUi = new Text(score.ToString(), uiFont, 0, 0, Color.White);
-            this.multiplierUi = new Text(multiplier.ToString(), uiFont, 200, 0, Color.White, Align.Right);
+            activeEnemies = new List<Enemy>();
+            viewEvents = new List<ViewEvent>();
+            time = 0;
+            score = 0;
+            multiplier = 1;
+            scoreUi = new Text(score.ToString(), uiFont, new Vector2(20, 0), Color.White);
+            multiplierUi = new Text(multiplier.ToString(), uiFont, new Vector2(200, 0), Color.White, Align.Right);
         }
 
         public void Update(GameTime gameTime)
@@ -62,7 +63,7 @@ namespace VoidWarrior.View
                 });
                 if (player.Bounds.Intersects(enemy.Bounds))
                 {
-                    _event = ViewEvent.Back;
+                    _event = ViewEvent.Quit;
                 }
             });
 
@@ -73,6 +74,7 @@ namespace VoidWarrior.View
             scoreUi.DisplayText = "Score: " + score.ToString();
             multiplierUi.DisplayText = "x" + multiplier.ToString();
             multiplierUi.X = scoreUi.X + scoreUi.Width + 10;
+
             viewEvents.Add(_event);
         }
 

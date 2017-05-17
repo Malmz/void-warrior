@@ -43,15 +43,15 @@ namespace VoidWarrior.Ui.Menu
             }
         }
 
-        public ViewEvent Event
-        {
-            get { return viewEvent; }
-        }
-
         public bool IsActive
         {
             get { return isActive; }
             set { isActive = value; }
+        }
+
+        public ViewEvent Event
+        {
+            get { return viewEvent; }
         }
     }
 

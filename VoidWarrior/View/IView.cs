@@ -4,19 +4,23 @@ using System.Collections.Generic;
 
 namespace VoidWarrior.View
 {
-    struct ViewEvent
+    public struct ViewEvent
     {
-        enum EventType
+        public enum EventType
         {
             None,
-            Back,
+            Quit,
             ChangeView,
         }
         private EventType eventType;
         private IView view;
         public static ViewEvent None { get { return new ViewEvent(); } }
-        public static ViewEvent Back { get { return new ViewEvent(EventType.Back); } }
+        public static ViewEvent Quit { get { return new ViewEvent(EventType.Quit); } }
         public static ViewEvent ChangeView(IView view) { return new ViewEvent(EventType.ChangeView, view); }
+
+        public EventType Event { get { return eventType; } }
+        public IView View { get { return view; } }
+
         private ViewEvent(EventType eventType = EventType.None, IView view = null)
         {
             this.eventType = eventType;
@@ -24,7 +28,7 @@ namespace VoidWarrior.View
         }
     }
 
-    interface IView
+    public interface IView
     {
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
