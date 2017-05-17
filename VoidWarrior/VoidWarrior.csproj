@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Gun.cs" />
-    <Compile Include="FloatRectangle.cs" />
     <Compile Include="Ui\Progress\Bar.cs" />
     <Compile Include="SpriteSheet.cs" />
     <Compile Include="Bullet.cs" />
