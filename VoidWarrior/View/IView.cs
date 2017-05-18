@@ -9,13 +9,13 @@ namespace VoidWarrior.View
         public enum EventType
         {
             None,
-            Quit,
+            Back,
             ChangeView,
         }
         private EventType eventType;
         private IView view;
         public static ViewEvent None { get { return new ViewEvent(); } }
-        public static ViewEvent Quit { get { return new ViewEvent(EventType.Quit); } }
+        public static ViewEvent Back { get { return new ViewEvent(EventType.Back); } }
         public static ViewEvent ChangeView(IView view) { return new ViewEvent(EventType.ChangeView, view); }
 
         public EventType Event { get { return eventType; } }
@@ -32,6 +32,6 @@ namespace VoidWarrior.View
     {
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
-        List<ViewEvent> Events { get; }
+        ViewEvent Event { get; }
     }
 }

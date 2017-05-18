@@ -83,7 +83,7 @@ namespace VoidWarrior
             );
             */
 
-            return new Level(enemies, player, res.GetFont(levelTemplate.UiFont));
+            return new Level(enemies, player, res.GetFont(levelTemplate.UiFont), res);
         }
 
         private class LevelT

@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using VoidWarrior.Ui.Menu;
 
 namespace VoidWarrior
 {
-    class Sprite
+    class Sprite : IStatic
     {
         protected Vector2 position;
         protected Vector2 size;

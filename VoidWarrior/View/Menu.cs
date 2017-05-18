@@ -10,14 +10,14 @@ namespace VoidWarrior.View
     {
         private List<IStatic> statics;
         private List<IInteractive> interactives;
-        private List<ViewEvent> viewEvents;
+        private ViewEvent viewEvent;
         private float inputDelay;
 
         public Menu()
         {
             statics = new List<IStatic>();
             interactives = new List<IInteractive>();
-            viewEvents = new List<ViewEvent>();
+            viewEvent = ViewEvent.None;
             inputDelay = 0;
         }
 
@@ -92,11 +92,14 @@ namespace VoidWarrior.View
 
             if (Input.Fire)
             {
-                viewEvents.Add(interactives.First(b => b.IsActive).Event);
+                viewEvent = interactives.First(b => b.IsActive).Event;
+            }
+            else
+            {
+                viewEvent = ViewEvent.None;
             }
 
             inputDelay -= gameTime.ElapsedGameTime.Milliseconds / 1000f;
-            viewEvents.Add(ViewEvent.None);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -105,15 +108,9 @@ namespace VoidWarrior.View
             interactives.ForEach(x => x.Draw(spriteBatch));
         }
 
-        public List<ViewEvent> Events
+        public ViewEvent Event
         {
-            get
-            {
-                var tmp = new List<ViewEvent>(viewEvents.Count);
-                viewEvents.ForEach(x => tmp.Add(x));
-                viewEvents.Clear();
-                return tmp;
-            }
+            get { return viewEvent; }
         }
     }
 }

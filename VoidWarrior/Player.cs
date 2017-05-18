@@ -42,8 +42,8 @@ namespace VoidWarrior
             this.health = health;
             this.shootSound = res.GetSound("Shoot");
             gun = new Gun(
-                14, 0.2f, 2f, 
-                new Bullet(
+                ammo: 14, fireRate: 0.35f, reloadTime: 2f, 
+                template: new Bullet(
                     new Sprite(res.GetTexture("BulletSpriteSheet"), sprite.X + sprite.Width / 2 - 10, sprite.Y, 20, 34, new Rectangle(466, 254, 10, 17), Color.White),
                     1, new Path(500, 90, x => 0)));
 
@@ -75,7 +75,7 @@ namespace VoidWarrior
         }
         public void Update(GameTime gameTime)
         {
-            if (Input.Fire)
+            if (Input.FireHold)
             {
                 gun.Position = new Vector2(sprite.X + sprite.Width / 2 - 10, sprite.Y);
                 if (gun.Fire())
