@@ -34,15 +34,17 @@ namespace VoidWarrior
             levelTemplate.Enemies.ForEach(enemyT => {
                 var func = GetLambda(enemyT.Path.Func);
                 enemies.Add(new Enemy(
-                    new Sprite(res.GetTexture(enemyT.Texture), 
-                        enemyT.Rectangle.X * translateX - enemyT.Rectangle.X / 2,
-                        enemyT.Rectangle.Y * translateY - enemyT.Rectangle.Y / 2,
-                        enemyT.Rectangle.W, 
-                        enemyT.Rectangle.H, 
-                    new Color(enemyT.Color.R / 255f, enemyT.Color.G / 255f, enemyT.Color.B / 255f)),
-                    res.GetTexture("pixel"), enemyT.Health, enemyT.Value, 
-                    new Path(enemyT.Path.Speed, enemyT.Path.Angle, func), 
-                    enemyT.Delay));
+                    sprite: new Sprite(res.GetTexture(enemyT.Texture), 
+                        X: enemyT.Rectangle.X * translateX - enemyT.Rectangle.X / 2,
+                        Y: enemyT.Rectangle.Y * translateY - enemyT.Rectangle.Y / 2,
+                        W: enemyT.Rectangle.W, 
+                        H: enemyT.Rectangle.H, 
+                        color: new Color(enemyT.Color.R / 255f, enemyT.Color.G / 255f, enemyT.Color.B / 255f)),
+                    healthBarTexture: res.GetTexture("pixel"), 
+                    health: enemyT.Health, 
+                    value: enemyT.Value, 
+                    path: new Path(enemyT.Path.Speed, enemyT.Path.Angle, func), 
+                    delay: enemyT.Delay));
             });
 
             // create player

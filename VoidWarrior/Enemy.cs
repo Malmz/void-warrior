@@ -16,7 +16,7 @@ namespace VoidWarrior
         private int value;
         private Gun gun;
 
-        public Enemy(Sprite sprite, Texture2D healthBarTexture, Sprite bulletSprite, int health, int value, Path path, float delay = 0)
+        public Enemy(Sprite sprite, Texture2D healthBarTexture, int health, int value, Path path, float delay = 0)
         {
             this.sprite = sprite;
             startPosition = sprite.Position;

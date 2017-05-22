@@ -2,44 +2,118 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace VoidWarrior
 {
+    /// <summary>
+    /// Den här classen är skriven med hjälp av matten från följande länk. 
+    /// https://www.gamedev.net/resources/_/technical/game-programming/2d-rotated-rectangle-collision-r2604
+    /// </summary>
     class RotSprite
     {
         private Texture2D texture;
-        private Vector2 TL, TR, BL, BR;
-        float rotation;
+        private Vector2 tL, tR, bL, bR, nX, nY, position;
+        float rotation, radius;
         private Color color;
+
         public RotSprite(Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation)
         {
             this.texture = texture;
             this.color = color;
             this.rotation = rotation * (float)Math.PI / 180;
+            this.position = position;
 
-            TL = new Vector2(-size.X / 2, -size.Y / 2);
-            TR = new Vector2( size.X / 2, -size.Y / 2);
-            BL = new Vector2(-size.X / 2,  size.Y / 2);
-            BR = new Vector2( size.X / 2,  size.Y / 2);
+            tL = Rotatate(new Vector2(-size.X / 2, -size.Y / 2), this.rotation);
+            tR = Rotatate(new Vector2( size.X / 2, -size.Y / 2), this.rotation);
+            bL = Rotatate(new Vector2(-size.X / 2,  size.Y / 2), this.rotation);
+            bR = Rotatate(new Vector2( size.X / 2,  size.Y / 2), this.rotation);
 
-            TL = new Vector2((float)((-size.X / 2) * Math.Cos(this.rotation) - (-size.Y / 2) * Math.Sin(this.rotation)));
+            nX = tR - tL;
+            nY = bR - tR;
+        }
+        
+        public bool Intersects(RotSprite otherSprite)
+        {
+            float sTLX = Vector2.Dot(Project(tL + position, nX), nX);
+            float sTRX = Vector2.Dot(Project(tR + position, nX), nX);
+            List<float> sListOtherX = otherSprite.Vertecies
+                .Select(x => Project(x + otherSprite.Location, nX))
+                .Select(x => Vector2.Dot(x, nX)).ToList();
 
-            TL.X = (float)(TL.X * Math.Cos(this.rotation) - TL.Y * Math.Sin(this.rotation));
-            TL.Y = (float)(TL.Y * Math.Sin(this.rotation) - TL.X * Math.Cos(this.rotation));
+            float bMaxX = sListOtherX.Max();
+            float bMinX = sListOtherX.Min();
 
-            TR.X = (float)(TR.X * Math.Cos(this.rotation) - TR.Y * Math.Sin(this.rotation));
-            TR.Y = (float)(TR.Y * Math.Sin(this.rotation) - TR.X * Math.Cos(this.rotation));
+            if (bMinX <= sTRX && bMaxX >= sTLX)
+            {
+                float sTRY = Vector2.Dot(Project(tR + position, nY), nY);
+                float sBRY = Vector2.Dot(Project(bR + position, nY), nY);
+                List <float> sListOtherY = otherSprite.Vertecies
+                    .Select(x => Project(x + otherSprite.Location, nY))
+                    .Select(x => Vector2.Dot(x, nY)).ToList();
+                float bMaxY = sListOtherY.Max();
+                float bMinY = sListOtherY.Min();
+                if (bMinY <= sBRY && bMaxY >= sTRY)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-            BL.X = (float)(BL.X * Math.Cos(this.rotation) - BL.Y * Math.Sin(this.rotation));
-            BL.Y = (float)(BL.Y * Math.Sin(this.rotation) - BL.X * Math.Cos(this.rotation));
+        private static Vector2 Rotatate(Vector2 vector, float angle)
+        {
+            return new Vector2(
+                (float)(vector.X * Math.Cos(angle) - vector.Y * Math.Sin(angle)),
+                (float)(vector.X * Math.Sin(angle) - vector.Y * Math.Cos(angle))
+            );
+        }
 
-            TL.X = (float)(TL.X * Math.Cos(this.rotation) - TL.Y * Math.Sin(this.rotation));
-            TL.Y = (float)(TL.Y * Math.Sin(this.rotation) - TL.X * Math.Cos(this.rotation));
+        private Vector2 Project(Vector2 vector, Vector2 axis)
+        {
+            float tmp = (vector.X * axis.X + vector.Y * axis.Y) / (axis.X * axis.X + axis.Y * axis.Y);
+            return new Vector2(
+                 tmp * axis.X,
+                 tmp * axis.Y
+            );
+        }
 
-            TL = position;
-            TR = new Vector2(position.X + size.X, position.Y);
-            BL = new Vector2(position.X, position.Y + size.Y);
-            BR = size;
+        public List<Vector2> Vertecies
+        {
+            get { return new List<Vector2> { tL, tR, bL, bR }; }
+        }
+
+        public List<Vector2> Normals
+        {
+            get { return new List<Vector2> { nX, nY }; }
+        }
+
+        public float Rotation
+        {
+            get
+            {
+                return rotation;
+            }
+            set
+            {
+                rotation = value;
+                tL = Rotatate(tL, rotation);
+                tR = Rotatate(tR, rotation);
+                bL = Rotatate(bL, rotation);
+                bR = Rotatate(bR, rotation);
+            }
+        }
+        public Vector2 Location {
+            get { return position; }
+            set { position = value; }
         }
     }
 }
