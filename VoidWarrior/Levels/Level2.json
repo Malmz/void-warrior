@@ -1,0 +1,128 @@
+﻿{
+	'UiFont': 'Forced',
+	'Player': {
+		'Rectangle': {
+			'X': 50,
+			'Y': 93,
+			'W': 70,
+			'H': 70
+		},
+		'Color': {
+			'R': 255,
+			'G': 255,
+			'B': 255,
+		}
+	},
+	'Enemies': [
+		{
+			'Texture': 'spaceship_enemy_red',
+			'Delay': 1,
+			'Value': 10,
+			'Rectangle': {
+				'X': 10,
+				'Y': -6,
+				'W': 70,
+				'H': 70
+			},
+			'Color': {
+				'R': 255,
+				'G': 255,
+				'B': 255
+			},
+			'Health': 1,
+			'Path': {
+				'Speed': 200,
+				'Angle': 270,
+				'Func': "0"
+			}
+		},
+		{
+			'Texture': 'spaceship_enemy_red',
+			'Delay': 2,
+			'Value': 10,
+			'Rectangle': {
+				'X': 10,
+				'Y': -6,
+				'W': 70,
+				'H': 70
+			},
+			'Color': {
+				'R': 255,
+				'G': 255,
+				'B': 255
+			},
+			'Health': 1,
+			'Path': {
+				'Speed': 200,
+				'Angle': 270,
+				'Func': "0"
+			}
+		},
+		{
+			'Texture': 'spaceship_enemy_red',
+			'Delay': 3,
+			'Value': 10,
+			'Rectangle': {
+				'X': 10,
+				'Y': -6,
+				'W': 70,
+				'H': 70
+			},
+			'Color': {
+				'R': 255,
+				'G': 255,
+				'B': 255
+			},
+			'Health': 1,
+			'Path': {
+				'Speed': 200,
+				'Angle': 270,
+				'Func': "0"
+			}
+		},
+		{
+			'Texture': 'spaceship_enemy_red',
+			'Delay': 4,
+			'Value': 10,
+			'Rectangle': {
+				'X': 10,
+				'Y': -6,
+				'W': 70,
+				'H': 70
+			},
+			'Color': {
+				'R': 255,
+				'G': 255,
+				'B': 255
+			},
+			'Health': 1,
+			'Path': {
+				'Speed': 200,
+				'Angle': 270,
+				'Func': "0"
+			}
+		},
+		{
+			'Texture': 'spaceship_enemy_red',
+			'Delay': 5,
+			'Value': 10,
+			'Rectangle': {
+				'X': 10,
+				'Y': -6,
+				'W': 70,
+				'H': 70
+			},
+			'Color': {
+				'R': 255,
+				'G': 255,
+				'B': 255
+			},
+			'Health': 1,
+			'Path': {
+				'Speed': 200,
+				'Angle': 270,
+				'Func': "0"
+			}
+		},
+	]
+}

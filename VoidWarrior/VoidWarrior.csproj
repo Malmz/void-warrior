@@ -39,19 +39,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
+    <Compile Include="Camera.cs" />
     <Compile Include="Gun.cs" />
-    <Compile Include="FloatRectangle.cs" />
+    <Compile Include="RotSprite.cs" />
+    <Compile Include="View\IView.cs" />
+    <Compile Include="Ui\Menu\IDynamic.cs" />
+    <Compile Include="Ui\Menu\IInteractive.cs" />
+    <Compile Include="Ui\Menu\IStatic.cs" />
     <Compile Include="Ui\Progress\Bar.cs" />
     <Compile Include="SpriteSheet.cs" />
     <Compile Include="Bullet.cs" />
-    <Compile Include="Button.cs" />
+    <Compile Include="Ui\Menu\Button.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Globals.cs" />
-    <Compile Include="Level.cs" />
+    <Compile Include="View\Level.cs" />
     <Compile Include="LevelParser.cs" />
-    <Compile Include="Menu.cs" />
+    <Compile Include="View\Menu.cs" />
     <Compile Include="Parallax.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="Player.cs" />
@@ -59,7 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourcePool.cs" />
     <Compile Include="Sprite.cs" />
-    <Compile Include="Text.cs" />
+    <Compile Include="Ui\Menu\Text.cs" />
     <Compile Include="Ui\Progress\Square.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,11 +92,12 @@
     <Content Include="Levels\Level1.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Levels\Level2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Ui\Menu\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

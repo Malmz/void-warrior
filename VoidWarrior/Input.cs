@@ -75,10 +75,12 @@ namespace VoidWarrior
 
         public static bool Fire
         {
-            get
-            {
-                return ButtonPressed(Buttons.A) || KeyPressed(Keys.Space);
-            }
+            get { return ButtonPressed(Buttons.A) || KeyPressed(Keys.Space); }
+        }
+
+        public static bool FireHold
+        {
+            get { return ButtonDown(Buttons.A) || KeyDown(Keys.Space); }
         }
 
         public static bool Reload
@@ -87,6 +89,11 @@ namespace VoidWarrior
             {
                 return ButtonPressed(Buttons.X) || KeyPressed(Keys.R);
             }
+        }
+
+        public static bool Pause
+        {
+            get { return ButtonPressed(Buttons.Start) || KeyPressed(Keys.Escape); }
         }
 
         public static bool ButtonDown(Buttons button)

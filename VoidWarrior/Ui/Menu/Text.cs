@@ -8,9 +8,9 @@ enum Align
     Center
 }
 
-namespace VoidWarrior
+namespace VoidWarrior.Ui.Menu
 {
-    class Text
+    class Text : IStatic
     {
         protected string text;
         protected SpriteFont font;
@@ -75,25 +75,6 @@ namespace VoidWarrior
                     break;
                 case Align.Right:
                     this.position = position - new Vector2(font.MeasureString(text).X, 0);
-                    break;
-            }
-        }
-
-        public Text(string text, SpriteFont font, float X, float Y, Color color, Align align = Align.Left)
-        {
-            this.text = text;
-            this.font = font;
-            this.color = color;
-            switch (align)
-            {
-                case Align.Left:
-                    this.position = new Vector2(X, Y);
-                    break;
-                case Align.Center:
-                    this.position = new Vector2(X - font.MeasureString(text).X / 2, Y);
-                    break;
-                case Align.Right:
-                    this.position = new Vector2(X - font.MeasureString(text).X, Y);
                     break;
             }
         }

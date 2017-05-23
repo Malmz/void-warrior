@@ -1,35 +1,48 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using VoidWarrior.Ui.Menu;
 
 namespace VoidWarrior
 {
-    class Sprite
+    class Sprite : IStatic
     {
         protected Vector2 position;
         protected Vector2 size;
         protected Rectangle rect;
+        protected Rectangle srcRect;
         protected Texture2D texture;
         protected Color color;
 
         public Sprite(Texture2D texture, float X, float Y, Color color)
         {
-            this.Position = new Vector2(X, Y);
-            this.Size = texture.Bounds.Size.ToVector2();
+            Position = new Vector2(X, Y);
+            Size = texture.Bounds.Size.ToVector2();
+            srcRect = texture.Bounds;
             this.texture = texture;
             this.color = color;
         }
 
         public Sprite(Texture2D texture, float X, float Y, float W, float H, Color color)
         {
-            this.Position = new Vector2(X, Y);
-            this.Size = new Vector2(W, H);
+            Position = new Vector2(X, Y);
+            Size = new Vector2(W, H);
+            srcRect = texture.Bounds;
+            this.texture = texture;
+            this.color = color;
+        }
+
+        public Sprite(Texture2D texture, float X, float Y, float W, float H, Rectangle srcRect, Color color)
+        {
+            Position = new Vector2(X, Y);
+            Size = new Vector2(W, H);
+            this.srcRect = srcRect;
             this.texture = texture;
             this.color = color;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, rect, color);
+            spriteBatch.Draw(texture, rect, srcRect, color);
         }
 
         public Vector2 Position
@@ -114,6 +127,12 @@ namespace VoidWarrior
             {
                 return rect;
             }
+        }
+
+        public Rectangle SourceRectangle
+        {
+            get { return srcRect; }
+            set { srcRect = value; }
         }
         public Texture2D Texture
         {
