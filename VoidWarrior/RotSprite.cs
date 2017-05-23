@@ -14,30 +14,40 @@ namespace VoidWarrior
     class RotSprite
     {
         private Texture2D texture;
-        private Vector2 tL, tR, bL, bR, nX, nY, position;
+        private Vector2 tL, tR, bL, bR, nX, nY, center, size;
+        private Rectangle rectangle;
         float rotation, radius;
         private Color color;
 
-        public RotSprite(Texture2D texture, Vector2 position, Vector2 size, Color color, float rotation)
+        public RotSprite(Texture2D texture, Vector2 center, Vector2 size, Color color, float rotation = 0)
         {
             this.texture = texture;
             this.color = color;
             this.rotation = rotation * (float)Math.PI / 180;
-            this.position = position;
+            this.center = center;
+            this.size = size;
 
-            tL = Rotatate(new Vector2(-size.X / 2, -size.Y / 2), this.rotation);
-            tR = Rotatate(new Vector2( size.X / 2, -size.Y / 2), this.rotation);
-            bL = Rotatate(new Vector2(-size.X / 2,  size.Y / 2), this.rotation);
-            bR = Rotatate(new Vector2( size.X / 2,  size.Y / 2), this.rotation);
+            if (rotation == 0)
+            {
+                rectangle = new Rectangle((int)(center.X - size.X / 2), (int)(center.Y - size.Y / 2), (int)size.X, (int)size.Y);
+            }
+            else
+            {
+                tL = Rotatate(new Vector2(-size.X / 2, -size.Y / 2), this.rotation);
+                tR = Rotatate(new Vector2(size.X / 2, -size.Y / 2), this.rotation);
+                bL = Rotatate(new Vector2(-size.X / 2, size.Y / 2), this.rotation);
+                bR = Rotatate(new Vector2(size.X / 2, size.Y / 2), this.rotation);
 
-            nX = tR - tL;
-            nY = bR - tR;
+                nX = tR - tL;
+                nY = bR - tR;
+            }
+            
         }
         
         public bool Intersects(RotSprite otherSprite)
         {
-            float sTLX = Vector2.Dot(Project(tL + position, nX), nX);
-            float sTRX = Vector2.Dot(Project(tR + position, nX), nX);
+            float sTLX = Vector2.Dot(Project(tL + center, nX), nX);
+            float sTRX = Vector2.Dot(Project(tR + center, nX), nX);
             List<float> sListOtherX = otherSprite.Vertecies
                 .Select(x => Project(x + otherSprite.Location, nX))
                 .Select(x => Vector2.Dot(x, nX)).ToList();
@@ -47,8 +57,8 @@ namespace VoidWarrior
 
             if (bMinX <= sTRX && bMaxX >= sTLX)
             {
-                float sTRY = Vector2.Dot(Project(tR + position, nY), nY);
-                float sBRY = Vector2.Dot(Project(bR + position, nY), nY);
+                float sTRY = Vector2.Dot(Project(tR + center, nY), nY);
+                float sBRY = Vector2.Dot(Project(bR + center, nY), nY);
                 List <float> sListOtherY = otherSprite.Vertecies
                     .Select(x => Project(x + otherSprite.Location, nY))
                     .Select(x => Vector2.Dot(x, nY)).ToList();
@@ -67,6 +77,20 @@ namespace VoidWarrior
             {
                 return false;
             }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                texture: texture, 
+                destinationRectangle: new Rectangle(center.ToPoint(), size.ToPoint()), 
+                sourceRectangle: null,
+                color: color, 
+                origin: new Vector2(texture.Width / 2, texture.Height / 2),
+                rotation: rotation,
+                effects: SpriteEffects.None,
+                layerDepth: 0
+            );
         }
 
         private static Vector2 Rotatate(Vector2 vector, float angle)
@@ -112,8 +136,8 @@ namespace VoidWarrior
             }
         }
         public Vector2 Location {
-            get { return position; }
-            set { position = value; }
+            get { return center; }
+            set { center = value; }
         }
     }
 }
