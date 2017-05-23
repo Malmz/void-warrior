@@ -25,7 +25,6 @@ namespace VoidWarrior
     {
         private const float SPEED = 300f;
         private SpriteSheet sprite;
-        private Texture2D bulletTexture;
         private SoundEffect shootSound;
         private Vector2 move;
         private int health;
@@ -34,17 +33,21 @@ namespace VoidWarrior
         private Direction direction;
         
 
-        public Player(Texture2D shipTexture, Texture2D bulletTexture, float X, float Y, float W, float H, Color color, SoundEffect shootSound, int health = 1)
+        public Player(ResourcePool res, float X, float Y, float W, float H, Color color, int health = 1)
         {
-            this.bulletTexture = bulletTexture;
-            sprite = new SpriteSheet(shipTexture, X, Y, W, H, color);
+            sprite = new SpriteSheet(res.GetTexture("VoidShipSpriteSheet"), X, Y, W, H, color);
             sprite.AutoTile(512, 512);
             move = new Vector2();
             direction = Direction.Center;
             this.health = health;
-            this.shootSound = shootSound;
-            gun = new Gun(8, 0.2f, 2f, new Bullet(bulletTexture, sprite.X + sprite.Width / 2 - 2, sprite.Y, 4, 25, Color.Red, 1, 500, 90, x => 0));
-            ammoBar = new Bar(bulletTexture, 10, Globals.SCREEN_HEIGHT - 20, 100, 10, gun.MagazineSize, gun.MagazineSize, Color.Yellow);
+            this.shootSound = res.GetSound("Shoot");
+            gun = new Gun(
+                ammo: 14, fireRate: 0.35f, reloadTime: 2f, 
+                template: new Bullet(
+                    new Sprite(res.GetTexture("BulletSpriteSheet"), sprite.X + sprite.Width / 2 - 10, sprite.Y, 20, 34, new Rectangle(466, 254, 10, 17), Color.White),
+                    1, new Path(500, 90, x => 0)));
+
+            ammoBar = new Bar(res.GetTexture("pixel"), 10, Globals.SCREEN_HEIGHT - 20, 100, 10, gun.MagazineSize, gun.MagazineSize, Color.Yellow);
         }
 
         private void MoveInside(Rectangle parent)
@@ -72,9 +75,9 @@ namespace VoidWarrior
         }
         public void Update(GameTime gameTime)
         {
-            if (Input.Fire)
+            if (Input.FireHold)
             {
-                gun.Position = new Vector2(sprite.X + sprite.Width / 2 - 2, sprite.Y);
+                gun.Position = new Vector2(sprite.X + sprite.Width / 2 - 10, sprite.Y);
                 if (gun.Fire())
                 {
                     shootSound.Play();
