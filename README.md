@@ -9,18 +9,20 @@ Man kan samla poäng genom att skuta ner fientliga skepp utan att ta skada.
 ## Planering
 
 - [x] Huvud meny
-- [ ] Level select
+- [x] Level select
 - [x] En Spelare som kan skuta
 - [x] Fiende skepp som kan röra sig efter en funktion
 - [x] Level läsare som läser Json filer och skapar en ny level baserat på den
 - [x] Skut ljud
-- [ ] Andra ljud
+- [ ] Bakgrunds ljud
+- [ ] Explotions ljud
 - [ ] Explosioner när skepp sprängs
-- [ ] Texture för spelare och fiende skepp
-- [ ] Texture för explosioner och skott
-- [ ] Animated sprite class
+- [x] Texture för spelare och fiende skepp
+- [x] Texture för skott
+- [ ] Texture för explosioner
+- [ ] Animated Sprite class
 - [x] Backgrund med paralaxing
 - [x] Poäng räknare
 - [ ] Combo räknare
 - [ ] Game over skärm
-- [ ] Controller support
+- [x] Victory skärm
