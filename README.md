@@ -24,5 +24,5 @@ Man kan samla poäng genom att skuta ner fientliga skepp utan att ta skada.
 - [x] Backgrund med paralaxing
 - [x] Poäng räknare
 - [ ] Combo räknare
-- [ ] Game over skärm
+- [x] Game over skärm
 - [x] Victory skärm
