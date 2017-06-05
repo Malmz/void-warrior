@@ -20,9 +20,12 @@ namespace VoidWarrior.View
         private Text scoreUi;
         private Text multiplierUi;
         private Menu pauseMenu;
-        private Menu winMenu;
-        private float winDelay;
         private bool paused;
+        private Menu winMenu;
+        private Text winScoreText;
+        private float winDelay;
+        private Menu gameOverMenu;
+        private bool gameOver;
         private ViewEvent viewEvent;
         public IDynamic Background { get; set; }
 
@@ -40,6 +43,9 @@ namespace VoidWarrior.View
             multiplier = 1;
             scoreUi = new Text(score.ToString(), uiFont, new Vector2(20, 0), Color.White);
             multiplierUi = new Text(multiplier.ToString(), uiFont, new Vector2(200, 0), Color.White, Align.Right);
+            winScoreText = new Text(score.ToString(), uiFont, new Vector2(Globals.SCREEN_WIDTH / 2 - 150, Globals.SCREEN_HEIGHT / 2), Color.White);
+            gameOver = false;
+            paused = false;
 
             pauseMenu = new Menu();
             pauseMenu.AddInteractive(new Button(
@@ -50,7 +56,6 @@ namespace VoidWarrior.View
                 activeColor: Color.Yellow, 
                 viewEvent: ViewEvent.Back, 
                 align: Align.Center));
-
             pauseMenu.AddInteractive(new Button(
                 text: "Back To Menu",
                 font: uiFont,
@@ -59,7 +64,6 @@ namespace VoidWarrior.View
                 activeColor: Color.Yellow,
                 viewEvent: ViewEvent.ChangeView(res.GetView("mainMenu")),
                 align: Align.Center));
-
             pauseMenu.AddStatic(new Sprite(res.GetTexture("pixel"), 0, 0, Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT, new Color(Color.Black, 0.8f)));
 
             winMenu = new Menu();
@@ -74,6 +78,20 @@ namespace VoidWarrior.View
             ));
             winMenu.AddStatic(new Sprite(res.GetTexture("pixel"), 0, 0, Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT, new Color(Color.Black, 0.8f)));
             winMenu.AddStatic(new Text("You Win!", res.GetFont("Guardians"), new Vector2(Globals.SCREEN_WIDTH / 2, Globals.SCREEN_HEIGHT / 2 - 75), Color.White, Align.Center));
+            winMenu.AddStatic(winScoreText);
+
+            gameOverMenu = new Menu();
+            gameOverMenu.AddInteractive(new Button(
+                text: "Back",
+                font: uiFont,
+                position: new Vector2(Globals.SCREEN_WIDTH / 2, Globals.SCREEN_HEIGHT / 2 + 50),
+                color: Color.White,
+                activeColor: Color.Yellow,
+                viewEvent: ViewEvent.ChangeView(res.GetView("mainMenu")),
+                align: Align.Center
+            ));
+            gameOverMenu.AddStatic(new Sprite(res.GetTexture("pixel"), 0, 0, Globals.SCREEN_WIDTH, Globals.SCREEN_HEIGHT, new Color(Color.Black, 0.8f)));
+            gameOverMenu.AddStatic(new Text("Game Over", res.GetFont("Guardians"), new Vector2(Globals.SCREEN_WIDTH / 2, Globals.SCREEN_HEIGHT / 2 - 75), Color.Red, Align.Center));
         }
 
         public void Update(GameTime gameTime)
@@ -120,6 +138,19 @@ namespace VoidWarrior.View
                         break;
                 }
             }
+            else if (gameOver)
+            {
+                gameOverMenu.Update(gameTime);
+                switch (gameOverMenu.Event.Event)
+                {
+                    case ViewEvent.EventType.ChangeView:
+                        viewEvent = gameOverMenu.Event;
+                        gameOver = false;
+                        break;
+                    default:
+                        break;
+                }
+            }
             else
             {
                 activeEnemies = aliveEnemies.Where(enemy => enemy.Delay < time).ToList();
@@ -130,6 +161,8 @@ namespace VoidWarrior.View
 
                 List<Enemy> deletedEnemies = new List<Enemy>();
                 List<Bullet> deletedBullets = new List<Bullet>();
+
+
 
                 activeEnemies.ForEach(enemy => {
                     player.Bullets.ForEach(bullet => {
@@ -150,7 +183,12 @@ namespace VoidWarrior.View
                     });
                     if (player.Bounds.Intersects(enemy.Bounds))
                     {
-                        viewEvent = ViewEvent.Back;
+                        gameOver = true;
+                    }
+                    Rectangle tmpRect = new Rectangle((int)-enemy.Width, (int)-enemy.Height, (int)(Globals.SCREEN_WIDTH + enemy.Width), (int)(Globals.SCREEN_HEIGHT + enemy.Height));
+                    if (!(tmpRect.Contains(enemy.Bounds) || tmpRect.Intersects(enemy.Bounds)))
+                    {
+                        deletedEnemies.Add(enemy);
                     }
                 });
 
@@ -161,6 +199,8 @@ namespace VoidWarrior.View
                 scoreUi.DisplayText = "Score: " + score.ToString();
                 multiplierUi.DisplayText = "x" + multiplier.ToString();
                 multiplierUi.X = scoreUi.X + scoreUi.Width + 10;
+
+                winScoreText.DisplayText = "Your score: " + score.ToString();
 
                 if (aliveEnemies.Count == 0)
                 {
@@ -179,13 +219,17 @@ namespace VoidWarrior.View
             player.Draw(spriteBatch);
             scoreUi.Draw(spriteBatch);
             multiplierUi.Draw(spriteBatch);
-            if (paused == true)
+            if (paused)
             {
                 pauseMenu.Draw(spriteBatch);
             }
             else if (winDelay > 3)
             {
                 winMenu.Draw(spriteBatch);
+            }
+            else if (gameOver)
+            {
+                gameOverMenu.Draw(spriteBatch);
             }
         }
 
@@ -199,6 +243,9 @@ namespace VoidWarrior.View
             player.Reset(playerStartPos);
             time = 0;
             score = 0;
+            winDelay = 0;
+            paused = false;
+            gameOver = false;
         }
     }
 }

@@ -49,6 +49,7 @@ namespace VoidWarrior
         /// </summary>
         public void Reload()
         {
+            lastEvent = 0;
             reloading = true;
         }
 
