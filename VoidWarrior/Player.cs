@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using VoidWarrior.Ui.Menu;
 using VoidWarrior.Ui.Progress;
 
 namespace VoidWarrior
@@ -21,7 +21,7 @@ namespace VoidWarrior
         Bottom,
         BottomRight,
     }
-    class Player
+    class Player : IDynamic
     {
         private const float SPEED = 300f;
         private SpriteSheet sprite;
@@ -50,6 +50,10 @@ namespace VoidWarrior
             ammoBar = new Bar(res.GetTexture("pixel"), 10, Globals.SCREEN_HEIGHT - 20, 100, 10, gun.MagazineSize, gun.MagazineSize, Color.Yellow);
         }
 
+        /// <summary>
+        /// Only move the player within the parrent rectangle
+        /// </summary>
+        /// <param name="parent"></param>
         private void MoveInside(Rectangle parent)
         {
             if (parent.Contains(sprite.Bounds))
@@ -73,6 +77,12 @@ namespace VoidWarrior
                 sprite.Y = parent.Y + parent.Height - sprite.Height;
             }
         }
+
+        /// <summary>
+        /// Check for input and move the player.
+        /// Change sprite based on direction
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             if (Input.FireHold)
@@ -91,6 +101,8 @@ namespace VoidWarrior
 
             ammoBar.Value = gun.Ammo;
 
+            // Fancy switchcase with ranges
+            // http://akshaya-m.blogspot.se/2015/03/elegant-way-to-switch-if-else.html
             var rangeSwitch = new Dictionary<Func<double, bool>, Action>
             {
                 { x => x < 22.5 || x > 337.5,   () => direction = Direction.Right },
@@ -110,6 +122,7 @@ namespace VoidWarrior
             }
             else
             {
+                // Calling the switchcase
                 rangeSwitch.First(sw => sw.Key(Angle(move))).Value();
             }
 
@@ -120,15 +133,24 @@ namespace VoidWarrior
             gun.Update(gameTime);
         }
 
+        /// <summary>
+        /// Gets the angle of a vector
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         private double Angle(Vector2 vector)
         {
             return Math.Atan2(vector.Y, -vector.X) * 180 / Math.PI + 180;
         }
 
+        /// <summary>
+        /// Draws the player to the screen
+        /// Draws all bullets to the screen
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             gun.Draw(spriteBatch);
-            ammoBar.Draw(spriteBatch);
             switch (direction)
             {
                 case Direction.TopLeft:
@@ -162,6 +184,7 @@ namespace VoidWarrior
                     sprite.Draw("R1C1", spriteBatch);
                     break;
             }
+            ammoBar.Draw(spriteBatch);
         }
 
         public Vector2 Position
@@ -202,6 +225,7 @@ namespace VoidWarrior
                 gun.Bullets = value;
             }
         }
+
         public Rectangle Bounds
         {
             get { return sprite.Bounds; }
@@ -218,6 +242,12 @@ namespace VoidWarrior
             {
                 health = value;
             }
+        }
+
+        public void Reset(Vector2 startPos)
+        {
+            Position = startPos;
+            gun.Reset();
         }
     }
 }

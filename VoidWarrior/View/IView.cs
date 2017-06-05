@@ -33,5 +33,6 @@ namespace VoidWarrior.View
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
         ViewEvent Event { get; }
+        void Reset();
     }
 }

@@ -19,15 +19,19 @@ namespace VoidWarrior
 
         public Gun(int ammo, float fireRate, float reloadTime, Bullet template)
         {
-            this.magazineSize = ammo;
+            magazineSize = ammo;
             this.ammo = ammo;
             this.fireRate = fireRate;
             this.reloadTime = reloadTime;
-            this.reloading = false;
+            reloading = false;
             this.template = template;
-            this.bullets = new List<Bullet>();
+            bullets = new List<Bullet>();
         }
 
+        /// <summary>
+        /// Fires a bullet 
+        /// </summary>
+        /// <returns></returns>
         public bool Fire()
         {
             if (fireRate < lastEvent && ammo > 0 && !reloading)
@@ -40,16 +44,27 @@ namespace VoidWarrior
             return false;
         }
 
+        /// <summary>
+        /// Refills the ammo counter
+        /// </summary>
         public void Reload()
         {
             reloading = true;
         }
 
+        /// <summary>
+        /// Deletes bullets not within an area
+        /// </summary>
+        /// <param name="range"></param>
         public void Range(Rectangle range)
         {
-            bullets = bullets.Where(x => Globals.SCREEN.Contains(x.Bounds) || Globals.SCREEN.Intersects(x.Bounds)).ToList();
+            bullets = bullets.Where(x => range.Contains(x.Bounds) || range.Intersects(x.Bounds)).ToList();
         }
 
+        /// <summary>
+        /// Moves all bullets along their path and time reloading
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             bullets.ForEach(x => x.Update(gameTime));
@@ -65,6 +80,10 @@ namespace VoidWarrior
             lastEvent += gameTime.ElapsedGameTime.Milliseconds / 1000f;
         }
 
+        /// <summary>
+        /// Draw all the bullets
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             bullets.ForEach(x => x.Draw(spriteBatch));
@@ -97,6 +116,14 @@ namespace VoidWarrior
         public int MagazineSize
         {
             get { return magazineSize; }
+        }
+
+        public void Reset()
+        {
+            ammo = magazineSize;
+            lastEvent = 0;
+            reloading = false;
+            bullets.Clear();
         }
     }
 }

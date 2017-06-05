@@ -1,16 +1,23 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using VoidWarrior.Ui.Menu;
 
 namespace VoidWarrior
 {
-    class Bullet
+    class Bullet : IDynamic
     {
         private Sprite sprite;
         private Vector2 startPos;
         private Path path;
         private int damage;
 
+        /// <summary>
+        /// Create new bullet
+        /// </summary>
+        /// <param name="sprite"></param>
+        /// <param name="damage"></param>
+        /// <param name="path"></param>
         public Bullet(Sprite sprite, int damage, Path path)
         {
             startPos = sprite.Position;
@@ -20,36 +27,28 @@ namespace VoidWarrior
             this.damage = damage;
         }
 
-        /*
-        public Bullet(Texture2D texture, float X, float Y, Color color, int damage, float speed, double angle, Func<float, float> func)
-        {
-            this.startPos = new Vector2(X, Y);
-            this.sprite = new Sprite(texture, 0, 0, color);
-            this.path = new Path(speed, angle, func);
-            this.damage = damage;
-        }
-
-        
-        public Bullet(Texture2D texture, float X, float Y, float W, float H, Color color, int damage, float speed, double angle, Func<float, float> func)
-        {
-            this.startPos = new Vector2(X, Y);
-            this.sprite = new Sprite(texture, 0, 0, W, H, color);
-            this.path = new Path(speed, angle, func);
-            this.damage = damage;
-        }
-
-        */
+        /// <summary>
+        /// Move bullet along its path
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             path.Update(gameTime);
             sprite.Position = path.Position + startPos;
         }
 
+        /// <summary>
+        /// Draw bullet to screen
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Create new identical bullet object
+        /// </summary>
         public Bullet Clone
         {
             get
@@ -79,6 +78,9 @@ namespace VoidWarrior
             }
         }
 
+        /// <summary>
+        /// Start position form where the bullet will move
+        /// </summary>
         public Vector2 StartPos
         {
             get { return startPos; }

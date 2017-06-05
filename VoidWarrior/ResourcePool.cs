@@ -14,6 +14,7 @@ namespace VoidWarrior
         Dictionary<string, SoundEffect> soundEffects;
         Dictionary<string, IView> viewCache;
 
+
         public ResourcePool(ContentManager content)
         {
             this.content = content;
@@ -47,6 +48,7 @@ namespace VoidWarrior
         {
             viewCache.Add(key, view);
         }
+
 
 
         public Texture2D GetTexture(string key)

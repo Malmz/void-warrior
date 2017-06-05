@@ -20,7 +20,6 @@ namespace VoidWarrior
         Menu levelSelect;
         Parallax parallax;
         IView currentView;
-        //Text controllerStatus;
 
         public Game1()
         {
@@ -76,23 +75,24 @@ namespace VoidWarrior
             mainMenu = new Menu();
             res.AddView("mainMenu", mainMenu);
 
-            var tempPos = new Vector2(Globals.SCREEN_WIDTH / 6, 200);
+            var tempPos = new Vector2(Globals.SCREEN_WIDTH / 6, 280);
 
             Directory.EnumerateFiles("Levels").ToList().ForEach(element =>
             {
-                res.AddView(element, LevelParser.Parse(element, res));
+                res.AddView(element, Parser.ParseLevel(element, res));
                 levelSelect.AddInteractive(new Button(
-                    element,
+                    System.IO.Path.GetFileNameWithoutExtension(element),
                     res.GetFont("Forced"),
-                    tempPos * 200,
+                    tempPos,
                     Color.White,
                     Color.Yellow,
                     ViewEvent.ChangeView(res.GetView(element))));
-                if (tempPos.X % Globals.SCREEN_WIDTH / 6 == 0) { tempPos.X += 200; } else { tempPos.Y += 100; tempPos.X = Globals.SCREEN_WIDTH / 6; }
+                if (tempPos.Y < Globals.SCREEN_HEIGHT - 100) { tempPos.Y += 100; } else { tempPos.Y += 280; tempPos.X += Globals.SCREEN_WIDTH / 6; }
             });
 
 
             levelSelect.AddStatic(new Text("Select Level", res.GetFont("Earth Orbiter"), new Vector2(Globals.SCREEN_WIDTH / 2, 100), Color.Yellow, Align.Center));
+            levelSelect.BackEvent = ViewEvent.ChangeView(res.GetView("mainMenu"));
 
             mainMenu.AddStatic(new Text(
                 "Void Warrior", 
@@ -104,20 +104,13 @@ namespace VoidWarrior
                 "Start", 
                 res.GetFont("Guardians"), 
                 new Vector2(Globals.SCREEN_WIDTH / 2, 400), 
-                Color.White, Color.Yellow,
-                ViewEvent.ChangeView(LevelParser.Parse("Levels/Level2.json", res)), 
-                Align.Center));
-            mainMenu.AddInteractive(new Button(
-                "Level Select", 
-                res.GetFont("Guardians"), 
-                new Vector2(Globals.SCREEN_WIDTH / 2, 500), 
                 Color.White, Color.Yellow, 
                 ViewEvent.ChangeView(levelSelect),
                 Align.Center));
             mainMenu.AddInteractive(new Button(
                 "Quit", 
                 res.GetFont("Guardians"),
-                new Vector2(Globals.SCREEN_WIDTH / 2, 600), 
+                new Vector2(Globals.SCREEN_WIDTH / 2, 500), 
                 Color.White, Color.Yellow, 
                 ViewEvent.Back, 
                 Align.Center));
@@ -171,6 +164,7 @@ namespace VoidWarrior
                     break;
                 case ViewEvent.EventType.ChangeView:
                     currentView = currentView.Event.View;
+                    currentView.Reset();
                     break;
                 default:
                     break;

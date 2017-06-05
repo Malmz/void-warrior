@@ -4,7 +4,7 @@ using VoidWarrior.Ui.Menu;
 
 namespace VoidWarrior
 {
-    class Sprite : IStatic
+    class Sprite : IDynamic
     {
         protected Vector2 position;
         protected Vector2 size;
@@ -39,6 +39,8 @@ namespace VoidWarrior
             this.texture = texture;
             this.color = color;
         }
+
+        public void Update(GameTime gameTime) { }
 
         public void Draw(SpriteBatch spriteBatch)
         {

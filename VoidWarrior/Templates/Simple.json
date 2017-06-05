@@ -1,0 +1,18 @@
+﻿{
+	'Texture': 'spaceship_enemy_red',
+	'W': 70,
+	'H': 70,
+	'Color': {
+		'R': 255,
+		'G': 255,
+		'B': 255,
+	},
+	'Health': 1,
+	'Value': 10,
+	'Speed': 180,
+	'Func': {
+		'Type': 'Sin',
+		'Param1': '100',
+		'Param2': '10'
+	}
+}

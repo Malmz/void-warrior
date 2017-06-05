@@ -11,6 +11,8 @@ namespace VoidWarrior.View
         private List<IStatic> statics;
         private List<IInteractive> interactives;
         private ViewEvent viewEvent;
+        public IDynamic Background { get; set; }
+        public ViewEvent BackEvent { get; set; }
         private float inputDelay;
 
         public Menu()
@@ -18,6 +20,7 @@ namespace VoidWarrior.View
             statics = new List<IStatic>();
             interactives = new List<IInteractive>();
             viewEvent = ViewEvent.None;
+            BackEvent = ViewEvent.None;
             inputDelay = 0;
         }
 
@@ -78,6 +81,10 @@ namespace VoidWarrior.View
 
         public void Update(GameTime gameTime) 
         {
+            if (Background != null)
+            {
+                Background.Update(gameTime);
+            }
             var temp = Input.Joystick.Y;
             if (temp < 0 && inputDelay < 0)
             {
@@ -94,6 +101,10 @@ namespace VoidWarrior.View
             {
                 viewEvent = interactives.First(b => b.IsActive).Event;
             }
+            else if (Input.Pause && BackEvent.Event != ViewEvent.None.Event)
+            {
+                viewEvent = BackEvent;
+            }
             else
             {
                 viewEvent = ViewEvent.None;
@@ -104,6 +115,10 @@ namespace VoidWarrior.View
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            if (Background != null)
+            {
+                Background.Draw(spriteBatch);
+            }
             statics.ForEach(x => x.Draw(spriteBatch));
             interactives.ForEach(x => x.Draw(spriteBatch));
         }
@@ -111,6 +126,12 @@ namespace VoidWarrior.View
         public ViewEvent Event
         {
             get { return viewEvent; }
+        }
+
+        public void Reset()
+        {
+            interactives.First(x => x.IsActive).IsActive = false;
+            interactives[0].IsActive = true;
         }
     }
 }

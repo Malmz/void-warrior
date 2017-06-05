@@ -64,5 +64,10 @@ namespace VoidWarrior
         {
             get { return func; }
         }
+
+        public void Reset()
+        {
+            position.X = 0;
+        }
     }
 }

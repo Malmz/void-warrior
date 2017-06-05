@@ -1,8 +1,0 @@
-﻿
-namespace VoidWarrior
-{
-    class Camera
-    {
-
-    }
-}

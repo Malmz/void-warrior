@@ -39,7 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
-    <Compile Include="Camera.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="RotSprite.cs" />
     <Compile Include="View\IView.cs" />
@@ -55,7 +54,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="View\Level.cs" />
-    <Compile Include="LevelParser.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="View\Menu.cs" />
     <Compile Include="Parallax.cs" />
     <Compile Include="Path.cs" />
@@ -89,13 +88,19 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Levels\Level1.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Levels\Level2.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="Levels\Level 1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
+    <Content Include="Templates\Simple.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\Wobble.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\Returner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

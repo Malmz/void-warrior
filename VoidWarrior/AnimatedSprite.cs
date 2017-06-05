@@ -1,10 +1,11 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using VoidWarrior.Ui.Menu;
 
 namespace VoidWarrior
 {
-    class AnimatedSprite : Sprite
+    class AnimatedSprite : Sprite, IDynamic
     {
         protected float frameTime;
         protected float updateTime;
@@ -16,7 +17,7 @@ namespace VoidWarrior
             this.currentFrame = new Rectangle(0, 0, frameWith, frameHeight);
         }
 
-        public void Update(GameTime gameTime)
+        public new void Update(GameTime gameTime)
         {
             if (frameTime < updateTime)
             {

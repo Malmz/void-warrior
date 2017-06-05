@@ -1,0 +1,84 @@
+﻿{
+	'UiFont': 'Forced',
+	'Player': {
+		'Rectangle': {
+			'X': 50,
+			'Y': 93,
+			'W': 70,
+			'H': 70
+		},
+		'Color': {
+			'R': 255,
+			'G': 255,
+			'B': 255,
+		}
+	},
+	'Templates': [
+		{
+			'Path': 'Templates/Simple.json',
+			'X': 30,
+			'Delay': 1,
+			'Angle': 275
+		},
+		{
+			'Path': 'Templates/Simple.json',
+			'X': 25,
+			'Delay': 2,
+			'Angle': 275
+		},
+		{
+			'Path': 'Templates/Simple.json',
+			'X': 20,
+			'Delay': 3,
+			'Angle': 275
+		},
+		{
+			'Path': 'Templates/Simple.json',
+			'X': 15,
+			'Delay': 4,
+			'Angle': 275
+		},
+		{
+			'Path': 'Templates/Simple.json',
+			'X': 20,
+			'Delay': 5,
+			'Angle': 275
+		},
+		{
+			'Path': 'Templates/Simple.json',
+			'X': 25,
+			'Delay': 6,
+			'Angle': 275
+		},
+		{
+			'Path': 'Templates/Simple.json',
+			'X': 30,
+			'Delay': 7,
+			'Angle': 275
+		},
+		{
+			'Path': 'Templates/Simple.json',
+			'X': 35,
+			'Delay': 8,
+			'Angle': 275
+		},
+		{
+			'Path': 'Templates/Returner.json',
+			'X': 65,
+			'Delay': 8.5,
+			'Angle': 0
+		},
+		{
+			'Path': 'Templates/Returner.json',
+			'X': 55,
+			'Delay': 9,
+			'Angle': 0
+		},
+		{
+			'Path': 'Templates/Returner.json',
+			'X': 45,
+			'Delay': 9.5,
+			'Angle': 0
+		}
+	]
+}

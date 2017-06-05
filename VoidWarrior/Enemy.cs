@@ -2,10 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using VoidWarrior.Ui.Progress;
+using VoidWarrior.Ui.Menu;
 
 namespace VoidWarrior
 {
-    class Enemy
+    // TODO: Write shooting mekanic
+    class Enemy : IDynamic
     {
         private Sprite sprite;
         private Vector2 startPosition;
@@ -14,7 +16,6 @@ namespace VoidWarrior
         private Bar healthBar;
         private float delay;
         private int value;
-        private Gun gun;
 
         public Enemy(Sprite sprite, Texture2D healthBarTexture, int health, int value, Path path, float delay = 0)
         {
@@ -27,6 +28,10 @@ namespace VoidWarrior
             healthBar = new Bar(healthBarTexture, X + sprite.Width / 2 - 80 / 2, Y + sprite.Height + 10, 80, 6, health, health, Color.Red);
         }
 
+        /// <summary>
+        /// Move Enemy along its path and update it's healthbar
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             path.Update(gameTime);
@@ -36,6 +41,10 @@ namespace VoidWarrior
             healthBar.Y = Y + sprite.Height + 10;
         }
 
+        /// <summary>
+        /// Draw enemy to the screen
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
@@ -93,6 +102,11 @@ namespace VoidWarrior
         public int Value
         {
             get { return value; }
+        }
+
+        public void Reset()
+        {
+            path.Reset();
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using VoidWarrior.Ui.Menu;
 
 namespace VoidWarrior
 {
-    class Parallax
+    class Parallax : IDynamic
     {
         private Texture2D back;
         private Texture2D front;
