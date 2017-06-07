@@ -106,6 +106,7 @@ namespace VoidWarrior
 
         public void Reset()
         {
+            health = (int)healthBar.MaxValue;
             path.Reset();
         }
     }
